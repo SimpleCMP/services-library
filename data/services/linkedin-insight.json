@@ -1,0 +1,13 @@
+{
+  "id": "linkedin-insight",
+  "name": "LinkedIn Insight Tag",
+  "vendor": "LinkedIn Ireland Unlimited Company",
+  "vendorCountry": "IE",
+  "purposes": ["marketing", "advertising", "analytics"],
+  "privacyPolicyUrl": "https://www.linkedin.com/legal/privacy-policy",
+  "description": "Conversion tracking, retargeting, and audience insights for LinkedIn Ads. Sets cookies to identify visitors across sessions and link them to LinkedIn profiles.",
+  "matches": {
+    "cookies": ["lidc", "bcookie", "bscookie", "AnalyticsSyncHistory", "UserMatchHistory", "li_oatml", "li_sugr", "/^li_/"],
+    "origins": ["snap.licdn.com", "px.ads.linkedin.com", "*.linkedin.com"]
+  }
+}

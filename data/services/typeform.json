@@ -1,0 +1,12 @@
+{
+  "id": "typeform",
+  "name": "Typeform",
+  "vendor": "TYPEFORM SL",
+  "vendorCountry": "ES",
+  "purposes": ["functional"],
+  "privacyPolicyUrl": "https://admin.typeform.com/to/dwk6gt/",
+  "description": "Embedded forms and surveys. Loads the form widget from Typeform's CDN.",
+  "matches": {
+    "origins": ["embed.typeform.com", "*.typeform.com"]
+  }
+}

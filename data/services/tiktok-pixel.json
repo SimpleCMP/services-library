@@ -1,0 +1,13 @@
+{
+  "id": "tiktok-pixel",
+  "name": "TikTok Pixel",
+  "vendor": "TikTok Technology Limited",
+  "vendorCountry": "IE",
+  "purposes": ["marketing", "advertising", "analytics"],
+  "privacyPolicyUrl": "https://www.tiktok.com/legal/page/eea/privacy-policy/en",
+  "description": "Conversion tracking and audience retargeting for TikTok Ads. Identifies visitors across sessions and links activity to TikTok user accounts.",
+  "matches": {
+    "cookies": ["/^_ttp/", "/^_tt_/"],
+    "origins": ["analytics.tiktok.com", "*.tiktok.com"]
+  }
+}

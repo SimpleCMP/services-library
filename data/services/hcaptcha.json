@@ -1,0 +1,13 @@
+{
+  "id": "hcaptcha",
+  "name": "hCaptcha",
+  "vendor": "Intuition Machines, Inc.",
+  "vendorCountry": "US",
+  "purposes": ["security"],
+  "privacyPolicyUrl": "https://www.hcaptcha.com/privacy",
+  "description": "Bot-detection challenge for forms and login flows. Sets a session cookie to track challenge state.",
+  "matches": {
+    "cookies": ["hmt_id"],
+    "origins": ["hcaptcha.com", "*.hcaptcha.com"]
+  }
+}

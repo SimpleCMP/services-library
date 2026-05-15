@@ -1,0 +1,13 @@
+{
+  "id": "pinterest-tag",
+  "name": "Pinterest Tag",
+  "vendor": "Pinterest Europe Ltd",
+  "vendorCountry": "IE",
+  "purposes": ["marketing", "advertising", "analytics"],
+  "privacyPolicyUrl": "https://policy.pinterest.com/privacy-policy",
+  "description": "Conversion tracking and audience retargeting for Pinterest Ads.",
+  "matches": {
+    "cookies": ["/^_pin_/", "_routing_id"],
+    "origins": ["ct.pinterest.com", "s.pinimg.com", "*.pinterest.com"]
+  }
+}

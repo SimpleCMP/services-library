@@ -1,0 +1,30 @@
+{
+  "name": "simplecmp/services-library",
+  "description": "Curated library of well-known third-party trackers as JSON data, in the SimpleCMP Service-DB protocol shape. Consumed by SimpleCMP CMS plugins (TYPO3, WordPress, Contao) and the SimpleCMP JS library.",
+  "type": "library",
+  "license": "BSD-3-Clause",
+  "authors": [
+    { "name": "Sven Wappler", "email": "wappler@wappler.systems" },
+    { "name": "Ilja Melnicenko", "email": "melnicenko@wappler.systems" }
+  ],
+  "homepage": "https://github.com/SimpleCMP/services-library",
+  "require": {
+    "php": "^8.3"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^11.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "SimpleCMP\\ServicesLibrary\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "SimpleCMP\\ServicesLibrary\\Tests\\": "tests/"
+    }
+  },
+  "scripts": {
+    "test": "phpunit"
+  }
+}

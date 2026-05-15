@@ -1,0 +1,12 @@
+{
+  "id": "adobe-fonts",
+  "name": "Adobe Fonts (Typekit)",
+  "vendor": "Adobe Inc.",
+  "vendorCountry": "US",
+  "purposes": ["functional"],
+  "privacyPolicyUrl": "https://www.adobe.com/privacy/policy.html",
+  "description": "Web-font hosting service (formerly Typekit). Loads font files from Adobe's CDN.",
+  "matches": {
+    "origins": ["use.typekit.net", "p.typekit.net"]
+  }
+}

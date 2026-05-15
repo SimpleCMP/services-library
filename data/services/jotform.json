@@ -1,0 +1,12 @@
+{
+  "id": "jotform",
+  "name": "JotForm",
+  "vendor": "Jotform Inc.",
+  "vendorCountry": "US",
+  "purposes": ["functional"],
+  "privacyPolicyUrl": "https://www.jotform.com/privacy/",
+  "description": "Embedded online forms and surveys.",
+  "matches": {
+    "origins": ["form.jotform.com", "cdn.jotfor.ms", "*.jotform.com"]
+  }
+}

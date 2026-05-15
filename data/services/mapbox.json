@@ -1,0 +1,12 @@
+{
+  "id": "mapbox",
+  "name": "Mapbox",
+  "vendor": "Mapbox, Inc.",
+  "vendorCountry": "US",
+  "purposes": ["functional"],
+  "privacyPolicyUrl": "https://www.mapbox.com/legal/privacy",
+  "description": "Embedded interactive maps. Logs per-tile telemetry to Mapbox for usage billing.",
+  "matches": {
+    "origins": ["api.mapbox.com", "events.mapbox.com", "*.tiles.mapbox.com"]
+  }
+}

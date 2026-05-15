@@ -1,0 +1,13 @@
+{
+  "id": "stripe",
+  "name": "Stripe",
+  "vendor": "Stripe, Inc.",
+  "vendorCountry": "US",
+  "purposes": ["functional", "security"],
+  "privacyPolicyUrl": "https://stripe.com/privacy",
+  "description": "Payment processing and Stripe.js form embedding. Sets cookies for session continuity, fraud prevention, and 3-D Secure flows.",
+  "matches": {
+    "cookies": ["__stripe_mid", "__stripe_sid", "/^_stripe_/"],
+    "origins": ["js.stripe.com", "m.stripe.com", "*.stripe.com", "*.stripe.network"]
+  }
+}
