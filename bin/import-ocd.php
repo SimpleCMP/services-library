@@ -211,7 +211,15 @@ foreach ($byId as $id => $rows) {
 
     // vendor: most common Data Controller across the platform's rows.
     $vendor = $mostCommonNonEmpty(array_column($rows, 'controller'));
+    // privacyPolicyUrl: must be HTTPS per the library's schema test.
+    // OCD occasionally lists http:// URLs (3 in the 2026-01-21
+    // snapshot); drop those rather than auto-upgrading the scheme
+    // (the vendor may not serve HTTPS, and a broken link is worse
+    // than a missing one).
     $privacy = $mostCommonNonEmpty(array_column($rows, 'privacy'));
+    if ($privacy !== '' && !str_starts_with($privacy, 'https://')) {
+        $privacy = '';
+    }
 
     // purposes: union of mapped categories. Unmapped categories
     // (e.g. future `Unclassified`) drop out — service ships with
