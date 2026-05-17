@@ -53,7 +53,7 @@ Each JSON file conforms to the upstream Service-DB protocol:
 
 | Field | Type | Required | Notes |
 |---|---|---|---|
-| `id` | string (kebab-case) | yes | Unique within the library |
+| `id` | string (kebab-case) | yes | Unique within the library. **Permanent** — see Stability. |
 | `name` | string | yes | Display name shown to end users |
 | `vendor` | string | recommended | Operator / legal entity |
 | `vendorCountry` | ISO 3166-1 α-2 | recommended | Where the vendor is established |
@@ -66,6 +66,21 @@ Each JSON file conforms to the upstream Service-DB protocol:
 | `i18n` | object | optional | Per-language overrides for `title` and `description` |
 
 Tests validate the schema on every PR.
+
+## Stability
+
+The `id` field is the **stable join key** consumers use to reference a
+service across the registry, detection rows, and the library itself.
+Once a service ships in a tagged release, its `id` is permanent —
+renames or vendor consolidations only ever update display fields
+(`name`, `vendor`), never the `id`. This means consumer plugins (the
+TYPO3 ext, future WordPress / Contao plugins) can safely store the
+`id` in their own tables and trust that future library releases will
+keep classifying the same cookies under the same key.
+
+If a typo or genuinely-wrong `id` ships, the fix is a service-id
+rename helper in each consumer plugin, not a silent change in the
+library. Mass-renames are off the table by design.
 
 ## Contributing
 

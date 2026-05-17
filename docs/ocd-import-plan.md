@@ -115,11 +115,26 @@ when present:
 
 When the OCD row has no domain, leave `matches.origins` empty.
 
-#### 2e — Skip already-curated services
+#### 2e — Union into existing services; emit new services for the rest
 
-Read the existing `data/services/*.json` files; any service-id
-that already exists is skipped. The hand-curated entries are
-authoritative — OCD never overwrites them.
+Read the existing `data/services/*.json` files. For each OCD-derived
+service the translator produces:
+
+- If the canonical vendor matches a hand-curated service (by `vendor`
+  field OR `service_id` collision): **union OCD's `matches.cookies`
+  and `matches.origins` into the hand-curated service**, deduplicated
+  against the existing matcher arrays. All other fields (`name`,
+  `vendor`, `description`, `purposes`, `privacyPolicyUrl`, `retention`,
+  `i18n`) are preserved unchanged — hand curation wins on display.
+- Otherwise: emit a new service file under `data/services/_imported/`
+  for the review pass.
+
+The union is logged so the diff is auditable in the PR — e.g.
+*"google-analytics: +`_gid` +`_gat` +`_ga_<ID>` +`__utm[abctvz]` …
+(9 cookies added, display fields unchanged)"*. The reviewer reads
+the log alongside the file diffs in Step 3.
+
+This is the practical effect of D3 below.
 
 ### Step 3 — Manual review pass
 
@@ -180,27 +195,129 @@ The TYPO3 ext pulls `simplecmp/services-library: ^0.1` →
 
 **Total: ~6-8 hours.**
 
-## Open questions
+## Decisions
 
-These are explicit decisions that need answering before Step 2 starts:
+### D1 — Vendor canonicalization with a hardcoded map (decided 2026-05-17)
 
-1. **Do we collapse vendor variants?** Some vendors appear in OCD
-   under multiple names ("Google", "Google LLC", "Google Inc.").
-   Collapse to one canonical name per vendor or keep them separate?
-   Recommendation: collapse, with a hardcoded canonicalisation map
-   for the top 30 vendors.
-2. **Do we include `Unclassified` rows at all?** They have no
-   purpose information, so they don't help the FE classifier
-   distinguish "known but unverified" from genuinely unknown.
-   Recommendation: include them anyway because at least they map
-   a cookie name → vendor + privacy policy URL, which is useful
-   for the BE *Übernehmen* modal even without purposes.
-3. **What do we do about OCD entries for services already in our
-   hand-curated library that have *more* cookies than we listed?**
-   E.g. our Google Analytics service lists `_ga`, but OCD has 12
-   GA-family cookies. Recommendation: leave hand-curated services
-   completely untouched; if curation needs the additional matchers,
-   that's a separate hand-update.
+OCD lists the same vendor under multiple names ("Google", "Google
+LLC", "Google Inc."). The import script maintains a hardcoded
+canonicalization map for the top 30 vendors; entries not in the map
+keep their literal OCD name.
 
-Once the OCD purposes / canonical-vendor decisions are made, Step 2
-can proceed in one focused sitting.
+**`service_id` is permanent once shipped** — this is the rule that
+makes canonicalization safe. Renames only ever update display fields
+(`name`, `vendor`); `id` never changes. Consumer plugins (TYPO3 ext,
+future WP / Contao plugins) can rely on this — they store the `id`
+in their own tables and trust that future library releases keep
+classifying the same cookies under the same key.
+
+Practical consequences for the import:
+
+- Decide canonicalization **before Step 2**, not after. If we later
+  realize "Meta Platforms Ireland Ltd." should map to "Meta" but
+  we already shipped `meta-platforms-ireland-ltd`, we cannot retro-
+  rename — the orphan would stay in consumer registries forever.
+- The first batch of OCD-derived services therefore goes through a
+  canonicalization map review pass *first*, then translation.
+- For new vendors appearing in future OCD re-imports: if they look
+  like a variant of an existing canonical vendor, add a map entry
+  *before* re-running the import (so the new rows land under the
+  existing `id`). If they're genuinely new, they get their own `id`.
+
+The canonical map lives at `bin/ocd-canonical-map.php` (proposed
+location); contributions add rows when re-imports surface new
+variants.
+
+### D2 — Include `Unclassified` OCD rows with empty `purposes` (decided 2026-05-17)
+
+OCD's `Unclassified` rows are imported, but with `purposes: []`. The
+vendor and privacy-policy-URL data is still useful — the BE
+*Übernehmen* modal can show "this is HubSpot; please specify
+purposes before adopting."
+
+**Consumer-plugin follow-up (TYPO3 ext, then WP / Contao):**
+purposes must be non-empty for any service to be saved. Two
+enforcement points:
+
+1. *TCA-level*: `required: true` on the `purposes` field. Blocks
+   *Anpassen*, *Kuratieren*, and direct *Web → List* edits.
+   DataHandler enforces server-side.
+2. *Übernehmen path*: when the library entry has `purposes: []`,
+   the silent-import button is replaced with a button routing to
+   the curation form (*Anpassen* style) with purposes required.
+
+Net effect: no admin can put a no-purposes service into the
+registry. Library entries with empty purposes are *useless in
+production until curated*, which is the intended outcome — better
+than letting an under-classified service silently ship.
+
+This retires the earlier "empty purposes is a valid needs-review
+state" stance from the v0.2 TCA design discussion. The state
+*needs-review* now lives in the detection table (the *erkannt*
+badge), not in the service registry. A row in the service
+registry without purposes is a bug.
+
+Tracked as a follow-up task in the TYPO3 ext, not in this library
+repo — the library can ship empty-purpose services; it's the
+consumer plugins' job to refuse to save them.
+
+### D3 — Union OCD cookies into existing hand-curated services (decided 2026-05-17)
+
+When OCD covers a vendor we already have a hand-curated service for,
+**OCD's cookies and origins are unioned into the existing service**.
+Hand curation wins on every display field (`name`, `vendor`,
+`description`, `purposes`, `privacyPolicyUrl`, `retention`, `i18n`)
+— those stay exactly as the hand-curator wrote them. OCD only ever
+contributes to the matcher arrays.
+
+Concrete example: our `google-analytics` ships with
+`matches.cookies: ["_ga"]` and a hand-vetted purpose list. OCD's
+"Google" canonical vendor has 12 GA-family cookies. After import:
+
+```json
+{
+  "id": "google-analytics",
+  "name": "Google Analytics",        // hand-curated, unchanged
+  "vendor": "Google",                // hand-curated, unchanged
+  "purposes": ["analytics"],         // hand-curated, unchanged
+  "matches": {
+    "cookies": [                     // unioned with OCD additions
+      "_ga", "_gid", "_gat", "/^_ga_/", "__utma", "__utmb", "__utmc",
+      "__utmt", "__utmv", "__utmz"
+    ],
+    "origins": ["www.google-analytics.com"]
+  }
+}
+```
+
+**Why union, not separate service:** the alternative — emitting OCD's
+"Google" as a separate service `google` alongside hand's
+`google-analytics` — would mean two services in the registry both
+classifying `_ga`. The FE classifier resolves to one, the other is
+dead weight. Confusing for admins. Single canonical service per
+vendor is cleaner.
+
+**Why union, not full overwrite:** hand-curated display fields are
+*intentional choices*. The hand-curator picked `analytics` instead of
+`analytics + marketing`, wrote a specific German translation, vetted
+the privacy-URL link target. OCD's data is fine for cookie names but
+imprecise for everything else.
+
+**Why library-side, not runtime:** the union happens at OCD-import
+time in this repo, not at detection time in a consumer plugin. A
+silent runtime "we saw `_gat`, let's add it to your `google-analytics`
+service" is auto-curation, which is explicitly off the table for
+compliance reasons — every addition to the registry must be a
+deliberate admin choice (running `simplecmp:import-known-trackers
+--force` against a new library version *is* a deliberate choice).
+
+**Consumer-plugin propagation:** a site that's already running
+`simplecmp:import-known-trackers` against a previous library version
+sees no change until they update the library AND re-run the import
+with `--force`. Default skip-if-exists preserves admin edits to the
+TYPO3 `tx_simplecmptypo3_service` row, including any cookie matchers
+the admin had hand-added. Admins who want the full union pass
+`--force` (and accept that other admin edits to those rows are
+clobbered).
+
+The OCD-import plan questions are all resolved. Step 2 can proceed.
