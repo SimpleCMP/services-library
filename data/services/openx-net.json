@@ -1,0 +1,24 @@
+{
+    "id": "openx-net",
+    "name": "openx.net",
+    "vendor": "OpenX",
+    "purposes": [
+        "marketing"
+    ],
+    "privacyPolicyUrl": "https://www.openx.com/privacy-center/privacy-policy/",
+    "matches": {
+        "cookies": [
+            "i",
+            "univ_id",
+            {
+                "name": "pd",
+                "requireOrigin": "openx.net"
+            },
+            "OAID",
+            "/^OAGEO/"
+        ],
+        "origins": [
+            "openx.net"
+        ]
+    }
+}

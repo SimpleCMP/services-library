@@ -1,0 +1,79 @@
+{
+    "id": "facebook",
+    "name": "Facebook",
+    "vendor": "Facebook",
+    "purposes": [
+        "functional",
+        "marketing"
+    ],
+    "privacyPolicyUrl": "https://www.facebook.com/about/privacy/",
+    "matches": {
+        "cookies": [
+            {
+                "name": "lu",
+                "requireOrigin": "facebook.com"
+            },
+            {
+                "name": "xs",
+                "requireOrigin": "facebook.com"
+            },
+            "c_user",
+            "m_user",
+            {
+                "name": "pl",
+                "requireOrigin": "facebook.com"
+            },
+            "dbln",
+            {
+                "name": "aks",
+                "requireOrigin": "facebook.com"
+            },
+            "aksb",
+            "sfau",
+            {
+                "name": "ick",
+                "requireOrigin": "facebook.com"
+            },
+            {
+                "name": "csm",
+                "requireOrigin": "facebook.com"
+            },
+            {
+                "name": "s",
+                "requireOrigin": "facebook.com"
+            },
+            "datr",
+            {
+                "name": "sb",
+                "requireOrigin": "facebook.com"
+            },
+            {
+                "name": "fr",
+                "requireOrigin": "facebook.com"
+            },
+            {
+                "name": "oo",
+                "requireOrigin": "facebook.com"
+            },
+            "ddid",
+            "locale",
+            "_fbp",
+            "_fbc",
+            "js_ver",
+            {
+                "name": "rc",
+                "requireOrigin": "facebook.com"
+            },
+            "campaign_click_url",
+            {
+                "name": "wd",
+                "requireOrigin": "facebook.com"
+            },
+            "usida",
+            "presence"
+        ],
+        "origins": [
+            "facebook.com"
+        ]
+    }
+}

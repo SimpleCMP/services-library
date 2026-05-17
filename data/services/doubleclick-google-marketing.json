@@ -1,0 +1,42 @@
+{
+    "id": "doubleclick-google-marketing",
+    "name": "DoubleClick/Google Marketing",
+    "vendor": "Google",
+    "purposes": [
+        "functional",
+        "marketing"
+    ],
+    "privacyPolicyUrl": "https://business.safety.google/privacy/",
+    "matches": {
+        "cookies": [
+            {
+                "name": "IDE",
+                "requireOrigin": "doubleclick.net"
+            },
+            "DSID",
+            {
+                "name": "ID",
+                "requireOrigin": "doubleclick.net"
+            },
+            {
+                "name": "RUL",
+                "requireOrigin": "doubleclick.net"
+            },
+            {
+                "name": "FLC",
+                "requireOrigin": "doubleclick.net"
+            },
+            "__gads",
+            "GoogleAdServingTest",
+            "ar_debug",
+            "test_cookie",
+            {
+                "name": "APC",
+                "requireOrigin": "doubleclick.net"
+            }
+        ],
+        "origins": [
+            "doubleclick.net"
+        ]
+    }
+}

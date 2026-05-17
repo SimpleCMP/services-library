@@ -1,0 +1,52 @@
+{
+    "id": "yahoo",
+    "name": "Yahoo",
+    "vendor": "Yahoo",
+    "purposes": [
+        "marketing"
+    ],
+    "privacyPolicyUrl": "https://legal.yahoo.com/ie/en/yahoo/privacy/cookies/index.html",
+    "matches": {
+        "cookies": [
+            {
+                "name": "A3",
+                "requireOrigin": "yahoo.com"
+            },
+            "APID",
+            "APIDTS",
+            "IDSYNC",
+            "A1",
+            "A1S",
+            "adaptv_unique_user_cookie",
+            {
+                "name": "cmp",
+                "requireOrigin": "yahoo.com"
+            },
+            "adsrcvw1",
+            "migrated2y",
+            {
+                "name": "OTH",
+                "requireOrigin": "yahoo.com"
+            },
+            "optout",
+            "rtbData0",
+            {
+                "name": "rxx",
+                "requireOrigin": "yahoo.com"
+            },
+            "tearsheet",
+            "unique_ad_source_impression",
+            "axids",
+            {
+                "name": "GUC",
+                "requireOrigin": "yahoo.com"
+            },
+            "trc_cookie_storage",
+            "tbla_id"
+        ],
+        "origins": [
+            "yahoo.com",
+            "advertising.com"
+        ]
+    }
+}

@@ -3,7 +3,10 @@
     "addToMatches": {
         "cookies": [
             "cookiePreferences",
-            "td"
+            {
+                "name": "td",
+                "requireOrigin": "www.googletagmanager.com"
+            }
         ]
     }
 }

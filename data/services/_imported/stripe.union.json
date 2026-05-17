@@ -2,7 +2,10 @@
     "id": "stripe",
     "addToMatches": {
         "cookies": [
-            "m"
+            {
+                "name": "m",
+                "requireOrigin": "m.stripe.com"
+            }
         ],
         "origins": [
             "stripe.com"

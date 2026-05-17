@@ -3,6 +3,10 @@
     "addToMatches": {
         "cookies": [
             "enforce_policy",
+            {
+                "name": "ts",
+                "requireOrigin": "paypal.com"
+            },
             "tsrce",
             "nsid",
             "X-PP-SILOVER",

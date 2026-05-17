@@ -158,6 +158,33 @@ $mostCommonNonEmpty = static function (array $values): string {
     return (string) array_key_first($counts);
 };
 
+/**
+ * Clean OCD's Domain field into a list of valid hostnames. Returns []
+ * when nothing usable remains. Used both for `matches.origins` and for
+ * the host-qualified cookie matcher's `requireOrigin`.
+ */
+$hostnameRe = '/^[a-z0-9*][a-z0-9.*-]*[a-z0-9]$/';
+$cleanDomains = static function (string $raw) use ($hostnameRe): array {
+    $raw = strtolower($raw);
+    if ($raw === '') {
+        return [];
+    }
+    $hosts = [];
+    foreach (preg_split('/\s+or\s+/', $raw) ?: [$raw] as $part) {
+        $part = (string) preg_replace('/\s*\([^)]*\)\s*$/', '', $part);
+        $part = trim($part, " \t\n\r\0\x0B.");
+        if ($part !== '' && preg_match($hostnameRe, $part) === 1) {
+            $hosts[$part] = true;
+        }
+    }
+    return array_keys($hosts);
+};
+
+// Cookie name length at or below which we require a host qualifier
+// (ADR-0010). 1-3 chars covers the OCD generic-name long tail
+// (Bing's MR/MC0, Stripe's m, GTM's td, …). Tunable.
+const SHORT_COOKIE_THRESHOLD = 3;
+
 // --- build services + write -----------------------------------------
 
 $writtenNew = 0;
@@ -209,42 +236,52 @@ foreach ($byId as $id => $rows) {
     sort($purposes);
 
     // cookies: literal for wildcard=0, regex `/^name/` for wildcard=1.
-    // Deduplicated. Order preserved as first-seen.
+    // Short literal cookies (≤ SHORT_COOKIE_THRESHOLD chars) emit the
+    // ADR-0010 host-qualified object form `{name, requireOrigin}`
+    // when the row carries a clean Domain — otherwise plain literals
+    // would false-match generic names on unrelated sites. Cookies are
+    // deduplicated by `id|name|origin` so two rows that produce the
+    // same triple collapse to one entry; the cookie list preserves
+    // first-seen order.
+    /** @var array<string, string|array{name: string, requireOrigin: string}> $cookies */
     $cookies = [];
     foreach ($rows as $r) {
         if ($r['cookie'] === '') {
             continue;
         }
-        $entry = $r['wildcard'] ? '/^' . preg_quote($r['cookie'], '/') . '/' : $r['cookie'];
-        $cookies[$entry] = true;
-    }
-    $cookies = array_keys($cookies);
-
-    // origins: deduplicated, cleaned hostname list. OCD's Domain
-    // field is *not* a clean hostname — ~150 rows have free-text
-    // qualifiers like `(3rd party)` or alternatives joined with
-    // ` or `. Normalize:
-    //   - lowercase
-    //   - split on ` or ` (handles "domA or domB")
-    //   - strip parenthetical suffix
-    //   - strip leading/trailing whitespace + dots
-    //   - keep only entries that look like a hostname
-    // (`amplitude.com` and `amplitude.com.` collapse to the same.)
-    $hostnameRe = '/^[a-z0-9*][a-z0-9.*-]*[a-z0-9]$/';
-    $origins = [];
-    foreach ($rows as $r) {
-        $raw = strtolower((string) $r['domain']);
-        if ($raw === '') {
+        $rowHosts = $cleanDomains($r['domain']);
+        if ($r['wildcard']) {
+            $entry = '/^' . preg_quote($r['cookie'], '/') . '/';
+            $key = "rx|{$entry}";
+            $cookies[$key] ??= $entry;
             continue;
         }
-        foreach (preg_split('/\s+or\s+/', $raw) ?: [$raw] as $part) {
-            // Strip a trailing parenthetical: " (3rd party)", " (1st party)" etc.
-            $part = (string) preg_replace('/\s*\([^)]*\)\s*$/', '', $part);
-            $part = trim($part, " \t\n\r\0\x0B.");
-            if ($part === '' || preg_match($hostnameRe, $part) !== 1) {
-                continue;
+        $isShort = strlen($r['cookie']) <= SHORT_COOKIE_THRESHOLD;
+        if ($isShort && $rowHosts !== []) {
+            // One entry per (name, host) pair — same cookie set on
+            // multiple subdomains gets a host-qualified entry each.
+            foreach ($rowHosts as $host) {
+                $key = "hq|{$r['cookie']}|{$host}";
+                $cookies[$key] ??= ['name' => $r['cookie'], 'requireOrigin' => $host];
             }
-            $origins[$part] = true;
+            continue;
+        }
+        // Plain literal — long enough to be distinctive, OR short
+        // without a host to qualify against (rare; ships as a known
+        // false-match risk).
+        $key = "lit|{$r['cookie']}";
+        $cookies[$key] ??= $r['cookie'];
+    }
+    $cookies = array_values($cookies);
+
+    // origins: deduplicated, cleaned hostname list across all rows for
+    // this service. Uses the same domain cleanup as the host-qualified
+    // cookies (free-text qualifiers like `(3rd party)`, ` or `
+    // alternatives, hostname validation).
+    $origins = [];
+    foreach ($rows as $r) {
+        foreach ($cleanDomains($r['domain']) as $host) {
+            $origins[$host] = true;
         }
     }
     $origins = array_keys($origins);
@@ -283,6 +320,13 @@ foreach ($byId as $id => $rows) {
         $newCookies = [];
         foreach ($cookies as $c) {
             if (in_array($c, $oldCookies, true)) {
+                continue;
+            }
+            // Object-form (host-qualified) entries are never covered
+            // by an existing string regex — they impose an extra
+            // condition (the host observation). Pass through.
+            if (is_array($c)) {
+                $newCookies[] = $c;
                 continue;
             }
             $coveredByRegex = false;

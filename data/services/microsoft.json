@@ -1,0 +1,36 @@
+{
+    "id": "microsoft",
+    "name": "Microsoft",
+    "vendor": "Microsoft",
+    "purposes": [
+        "analytics",
+        "functional",
+        "security"
+    ],
+    "privacyPolicyUrl": "https://account.microsoft.com/privacy",
+    "matches": {
+        "cookies": [
+            "_clck",
+            "_clsk",
+            {
+                "name": "SM",
+                "requireOrigin": "clarity.ms"
+            },
+            "CLID",
+            "MicrosoftApplicationsTelemetryDeviceId",
+            "/^esctx\\-/",
+            "/^isFirstSession/",
+            "/^MSO/",
+            "/^X\\-FD\\-FEATURES/",
+            "/^X\\-FD\\-Time/",
+            "ASP.NET_Sessio",
+            "ASP.NET_Sessio_Fallback",
+            "/^\\.AspNetCore\\.Antiforgery\\./",
+            "/^__RequestVerificationToken/"
+        ],
+        "origins": [
+            "clarity.ms",
+            "login.microsoftonline.com"
+        ]
+    }
+}

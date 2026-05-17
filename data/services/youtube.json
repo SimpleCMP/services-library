@@ -1,0 +1,31 @@
+{
+    "id": "youtube",
+    "name": "Youtube",
+    "vendor": "Google",
+    "purposes": [
+        "functional",
+        "marketing"
+    ],
+    "privacyPolicyUrl": "https://business.safety.google/privacy/",
+    "matches": {
+        "cookies": [
+            {
+                "name": "GPS",
+                "requireOrigin": "youtube.com"
+            },
+            "VISITOR_INFO1_LIVE",
+            "PREF",
+            {
+                "name": "YSC",
+                "requireOrigin": "youtube.com"
+            },
+            "DEVICE_INFO",
+            "LOGIN_INFO",
+            "VISITOR_PRIVACY_METADATA",
+            "__Secure-ROLLOUT_TOKEN"
+        ],
+        "origins": [
+            "youtube.com"
+        ]
+    }
+}

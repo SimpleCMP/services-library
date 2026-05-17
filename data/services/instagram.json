@@ -1,0 +1,28 @@
+{
+    "id": "instagram",
+    "name": "Instagram",
+    "vendor": "Meta",
+    "purposes": [
+        "functional",
+        "marketing"
+    ],
+    "privacyPolicyUrl": "https://www.facebook.com/privacy/policies/cookies",
+    "matches": {
+        "cookies": [
+            "ig_did",
+            "ig_cb",
+            "ds_user_id",
+            {
+                "name": "mid",
+                "requireOrigin": "instagram.com"
+            },
+            "/^fbm_/",
+            "shbid",
+            "shbts",
+            "sessionid"
+        ],
+        "origins": [
+            "instagram.com"
+        ]
+    }
+}
