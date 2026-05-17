@@ -29,8 +29,8 @@
             "tvid"
         ],
         "origins": [
-            "rubiconproject.com",
-            "tremorhub.com"
+            "*.rubiconproject.com",
+            "*.tremorhub.com"
         ]
     }
 }

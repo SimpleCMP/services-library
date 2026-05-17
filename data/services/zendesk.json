@@ -33,7 +33,7 @@
             "_zdsession_talk_embeddables_service"
         ],
         "origins": [
-            "zendesk.com"
+            "*.zendesk.com"
         ]
     }
 }

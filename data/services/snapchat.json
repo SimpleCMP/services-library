@@ -17,7 +17,7 @@
             "_scid_r"
         ],
         "origins": [
-            "snapchat.com"
+            "*.snapchat.com"
         ]
     }
 }

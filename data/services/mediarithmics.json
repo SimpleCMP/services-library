@@ -17,7 +17,7 @@
             }
         ],
         "origins": [
-            "mediarithmics.com"
+            "*.mediarithmics.com"
         ]
     }
 }

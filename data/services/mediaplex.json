@@ -15,7 +15,7 @@
             }
         ],
         "origins": [
-            "mediaplex.com"
+            "*.mediaplex.com"
         ]
     }
 }

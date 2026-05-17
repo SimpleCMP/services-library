@@ -12,8 +12,8 @@
             "oribi_cookie_test"
         ],
         "origins": [
-            "oribi.io",
-            "linkedin.com"
+            "*.oribi.io",
+            "*.linkedin.com"
         ]
     }
 }

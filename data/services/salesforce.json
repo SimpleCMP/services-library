@@ -110,8 +110,8 @@
             "pi_opt_in"
         ],
         "origins": [
-            "salesforce.com",
-            "krxd.net"
+            "*.salesforce.com",
+            "*.krxd.net"
         ]
     }
 }

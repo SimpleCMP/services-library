@@ -12,7 +12,7 @@
             "MRM_UID"
         ],
         "origins": [
-            "stickyadstv.com"
+            "*.stickyadstv.com"
         ]
     }
 }

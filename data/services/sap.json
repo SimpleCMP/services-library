@@ -42,7 +42,7 @@
             "ucid"
         ],
         "origins": [
-            "gigya.com"
+            "*.gigya.com"
         ]
     }
 }

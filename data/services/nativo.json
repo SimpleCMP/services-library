@@ -12,7 +12,7 @@
             "visitor"
         ],
         "origins": [
-            "postrelease.com"
+            "*.postrelease.com"
         ]
     }
 }

@@ -11,7 +11,7 @@
             "_bit"
         ],
         "origins": [
-            "bit.ly"
+            "*.bit.ly"
         ]
     }
 }

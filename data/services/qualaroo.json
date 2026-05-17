@@ -12,7 +12,7 @@
             "ki_u"
         ],
         "origins": [
-            "qualaroo.com"
+            "*.qualaroo.com"
         ]
     }
 }

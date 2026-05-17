@@ -32,7 +32,7 @@
             "yashr"
         ],
         "origins": [
-            "yandex.ru"
+            "*.yandex.ru"
         ]
     }
 }

@@ -19,7 +19,7 @@
             "GRV_google"
         ],
         "origins": [
-            "groovinads.com"
+            "*.groovinads.com"
         ]
     }
 }

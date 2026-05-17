@@ -11,7 +11,7 @@
             "am-uid"
         ],
         "origins": [
-            "admixer.net"
+            "*.admixer.net"
         ]
     }
 }

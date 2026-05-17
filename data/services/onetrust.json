@@ -19,7 +19,7 @@
             "__Secure-fgpt"
         ],
         "origins": [
-            "onetrust.com"
+            "*.onetrust.com"
         ]
     }
 }

@@ -11,7 +11,7 @@
             "audience"
         ],
         "origins": [
-            "spotxchange.com"
+            "*.spotxchange.com"
         ]
     }
 }

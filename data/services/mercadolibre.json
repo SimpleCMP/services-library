@@ -13,7 +13,7 @@
             "ftid"
         ],
         "origins": [
-            "mercadolibre.com"
+            "*.mercadolibre.com"
         ]
     }
 }

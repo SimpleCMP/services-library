@@ -21,7 +21,7 @@
             "_epik"
         ],
         "origins": [
-            "pinterest.com"
+            "*.pinterest.com"
         ]
     }
 }

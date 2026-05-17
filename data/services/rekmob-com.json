@@ -10,7 +10,7 @@
             "rek_content"
         ],
         "origins": [
-            "rekmob.com"
+            "*.rekmob.com"
         ]
     }
 }

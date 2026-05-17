@@ -33,7 +33,7 @@
             "GA_OPT_OUT"
         ],
         "origins": [
-            "google-analytics.com"
+            "*.google-analytics.com"
         ]
     }
 }

@@ -12,7 +12,7 @@
             "jpxumatched"
         ],
         "origins": [
-            "justpremium.com"
+            "*.justpremium.com"
         ]
     }
 }

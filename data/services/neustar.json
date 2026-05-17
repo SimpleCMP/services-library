@@ -14,7 +14,7 @@
             }
         ],
         "origins": [
-            "agkn.com"
+            "*.agkn.com"
         ]
     }
 }

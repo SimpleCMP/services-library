@@ -14,7 +14,7 @@
             "fastclick"
         ],
         "origins": [
-            "fastclick.net"
+            "*.fastclick.net"
         ]
     }
 }

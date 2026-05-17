@@ -11,7 +11,7 @@
             "Kiyohnl"
         ],
         "origins": [
-            "kiyoh.nl"
+            "*.kiyoh.nl"
         ]
     }
 }

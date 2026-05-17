@@ -15,7 +15,7 @@
             "ELQSTATUS"
         ],
         "origins": [
-            "eloqua.com"
+            "*.eloqua.com"
         ]
     }
 }

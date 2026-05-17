@@ -14,7 +14,7 @@
             }
         ],
         "origins": [
-            "ioam.de"
+            "*.ioam.de"
         ]
     }
 }

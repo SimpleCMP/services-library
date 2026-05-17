@@ -20,7 +20,7 @@
             "adheseCustomer"
         ],
         "origins": [
-            "adhese.com"
+            "*.adhese.com"
         ]
     }
 }

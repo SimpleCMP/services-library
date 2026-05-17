@@ -11,7 +11,7 @@
             "v_usr"
         ],
         "origins": [
-            "e-volution.ai"
+            "*.e-volution.ai"
         ]
     }
 }

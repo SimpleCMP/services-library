@@ -19,7 +19,7 @@
             "vfThirdpartyCookiesEnabled"
         ],
         "origins": [
-            "viafoura.co"
+            "*.viafoura.co"
         ]
     }
 }

@@ -11,7 +11,7 @@
             "tPHG-PS"
         ],
         "origins": [
-            "prf.hn"
+            "*.prf.hn"
         ]
     }
 }

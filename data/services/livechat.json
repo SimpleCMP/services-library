@@ -16,7 +16,7 @@
             "/^lc_/"
         ],
         "origins": [
-            "livechatinc.com"
+            "*.livechatinc.com"
         ]
     }
 }

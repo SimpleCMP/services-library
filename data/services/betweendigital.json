@@ -13,7 +13,7 @@
             }
         ],
         "origins": [
-            "betweendigital.com"
+            "*.betweendigital.com"
         ]
     }
 }

@@ -12,7 +12,7 @@
             "wfivefivec"
         ],
         "origins": [
-            "w55c.net"
+            "*.w55c.net"
         ]
     }
 }

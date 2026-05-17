@@ -16,7 +16,7 @@
             "st_ssp"
         ],
         "origins": [
-            "seedtag.com"
+            "*.seedtag.com"
         ]
     }
 }

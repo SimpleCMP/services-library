@@ -10,7 +10,7 @@
             "_rxuuid"
         ],
         "origins": [
-            "1rx.io"
+            "*.1rx.io"
         ]
     }
 }

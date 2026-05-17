@@ -11,7 +11,7 @@
             "deuxesse_uxid"
         ],
         "origins": [
-            "twiago.com"
+            "*.twiago.com"
         ]
     }
 }

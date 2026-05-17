@@ -12,7 +12,7 @@
             "barometric[idfa]"
         ],
         "origins": [
-            "trkn.us"
+            "*.trkn.us"
         ]
     }
 }

@@ -11,7 +11,7 @@
             "iutk"
         ],
         "origins": [
-            "issuu.com"
+            "*.issuu.com"
         ]
     }
 }

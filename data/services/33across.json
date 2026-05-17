@@ -11,7 +11,7 @@
             "33x_ps"
         ],
         "origins": [
-            "33across.com"
+            "*.33across.com"
         ]
     }
 }

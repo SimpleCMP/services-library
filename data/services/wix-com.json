@@ -28,7 +28,7 @@
             "server-session-bind"
         ],
         "origins": [
-            "wix.com"
+            "*.wix.com"
         ]
     }
 }

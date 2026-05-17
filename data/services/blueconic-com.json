@@ -19,7 +19,7 @@
             "bc_tstgrp"
         ],
         "origins": [
-            "blueconic.net"
+            "*.blueconic.net"
         ]
     }
 }

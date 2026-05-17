@@ -44,8 +44,8 @@
             "tfw_exp"
         ],
         "origins": [
-            "twitter.com",
-            "t.co"
+            "*.twitter.com",
+            "*.t.co"
         ]
     }
 }

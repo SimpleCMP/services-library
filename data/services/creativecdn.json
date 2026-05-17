@@ -27,7 +27,7 @@
             }
         ],
         "origins": [
-            "creativecdn.com"
+            "*.creativecdn.com"
         ]
     }
 }

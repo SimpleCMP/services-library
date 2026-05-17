@@ -22,7 +22,7 @@
             "fpestid"
         ],
         "origins": [
-            "sharethis.com"
+            "*.sharethis.com"
         ]
     }
 }

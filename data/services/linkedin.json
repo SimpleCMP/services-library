@@ -100,7 +100,7 @@
             "li_feed_xray"
         ],
         "origins": [
-            "linkedin.com"
+            "*.linkedin.com"
         ]
     }
 }

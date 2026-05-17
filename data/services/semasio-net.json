@@ -10,7 +10,7 @@
             "SEUNCY"
         ],
         "origins": [
-            "semasio.net"
+            "*.semasio.net"
         ]
     }
 }

@@ -20,7 +20,7 @@
             "__qca"
         ],
         "origins": [
-            "quantserve.com"
+            "*.quantserve.com"
         ]
     }
 }

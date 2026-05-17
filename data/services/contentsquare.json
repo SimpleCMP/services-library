@@ -34,7 +34,7 @@
             "/^_cs_tld/"
         ],
         "origins": [
-            "clicktale.net"
+            "*.clicktale.net"
         ]
     }
 }

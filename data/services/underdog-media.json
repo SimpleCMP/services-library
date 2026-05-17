@@ -16,7 +16,7 @@
             "udmts"
         ],
         "origins": [
-            "udmserve.net"
+            "*.udmserve.net"
         ]
     }
 }

@@ -14,7 +14,7 @@
             "codepen_signup_referrer_date"
         ],
         "origins": [
-            "codepen.io"
+            "*.codepen.io"
         ]
     }
 }

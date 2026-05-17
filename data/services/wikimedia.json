@@ -17,7 +17,7 @@
             "NetWorkProbeLimit"
         ],
         "origins": [
-            "wikimedia.org"
+            "*.wikimedia.org"
         ]
     }
 }

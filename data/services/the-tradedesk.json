@@ -12,7 +12,7 @@
             "TDID"
         ],
         "origins": [
-            "adsrvr.org"
+            "*.adsrvr.org"
         ]
     }
 }

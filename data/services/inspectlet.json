@@ -22,7 +22,7 @@
             "__insp_targlpu"
         ],
         "origins": [
-            "inspectlet.com"
+            "*.inspectlet.com"
         ]
     }
 }

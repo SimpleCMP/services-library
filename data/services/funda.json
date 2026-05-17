@@ -20,7 +20,7 @@
             "SNLB2"
         ],
         "origins": [
-            "funda.nl"
+            "*.funda.nl"
         ]
     }
 }

@@ -94,7 +94,7 @@
             "/^_shopify_essential_/"
         ],
         "origins": [
-            "shopify.com"
+            "*.shopify.com"
         ]
     }
 }

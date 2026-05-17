@@ -15,7 +15,7 @@
             "CMST"
         ],
         "origins": [
-            "casalemedia.com"
+            "*.casalemedia.com"
         ]
     }
 }

@@ -11,7 +11,7 @@
             "_gat_pro"
         ],
         "origins": [
-            "snapwidget.com"
+            "*.snapwidget.com"
         ]
     }
 }

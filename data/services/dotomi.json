@@ -24,7 +24,7 @@
             "dtm_gpc_optout"
         ],
         "origins": [
-            "dotomi.com"
+            "*.dotomi.com"
         ]
     }
 }

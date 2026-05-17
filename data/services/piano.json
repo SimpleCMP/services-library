@@ -41,7 +41,7 @@
             "_pcid"
         ],
         "origins": [
-            "tinypass.com"
+            "*.tinypass.com"
         ]
     }
 }

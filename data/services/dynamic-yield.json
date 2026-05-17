@@ -30,7 +30,7 @@
             "_dy_cs_cookie_items"
         ],
         "origins": [
-            "dynamicyield.com"
+            "*.dynamicyield.com"
         ]
     }
 }

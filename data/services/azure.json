@@ -44,7 +44,7 @@
             "Dynamics365PortalAnalytics"
         ],
         "origins": [
-            "microsoft.com"
+            "*.microsoft.com"
         ]
     }
 }

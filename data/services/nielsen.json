@@ -23,8 +23,8 @@
             }
         ],
         "origins": [
-            "imrworldwide.com",
-            "exelator.com"
+            "*.imrworldwide.com",
+            "*.exelator.com"
         ]
     }
 }

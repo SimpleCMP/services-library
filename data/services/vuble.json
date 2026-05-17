@@ -14,7 +14,7 @@
             }
         ],
         "origins": [
-            "vuble.tv"
+            "*.vuble.tv"
         ]
     }
 }

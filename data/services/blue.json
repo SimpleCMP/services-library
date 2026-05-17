@@ -13,7 +13,7 @@
             "BLUEID"
         ],
         "origins": [
-            "getblue.io"
+            "*.getblue.io"
         ]
     }
 }

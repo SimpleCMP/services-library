@@ -286,10 +286,22 @@ foreach ($byId as $id => $rows) {
     // this service. Uses the same domain cleanup as the host-qualified
     // cookies (free-text qualifiers like `(3rd party)`, ` or `
     // alternatives, hostname validation).
+    //
+    // 2-label apex domains get the wildcard form `*.example.com`
+    // automatically — `originMatches` treats it as "apex + all
+    // subdomains", so a real tracker loading from `www.example.com`
+    // or `cdn.example.com` still classifies. Specific subdomain
+    // literals (3+ labels) stay literal: the curator was being
+    // specific. See bin/migrate-apex-origins.php for the one-shot
+    // pass over data shipped before this rule.
     $origins = [];
     foreach ($rows as $r) {
         foreach ($cleanDomains($r['domain']) as $host) {
-            $origins[$host] = true;
+            if (substr_count($host, '.') === 1) {
+                $origins['*.' . $host] = true;
+            } else {
+                $origins[$host] = true;
+            }
         }
     }
     $origins = array_keys($origins);

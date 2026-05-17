@@ -22,7 +22,7 @@
             }
         ],
         "origins": [
-            "creative-serving.com"
+            "*.creative-serving.com"
         ]
     }
 }

@@ -12,7 +12,7 @@
             "bounceClientVisit"
         ],
         "origins": [
-            "bounceexchange.com"
+            "*.bounceexchange.com"
         ]
     }
 }

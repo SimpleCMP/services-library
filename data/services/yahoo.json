@@ -45,8 +45,8 @@
             "tbla_id"
         ],
         "origins": [
-            "yahoo.com",
-            "advertising.com"
+            "*.yahoo.com",
+            "*.advertising.com"
         ]
     }
 }

@@ -13,7 +13,7 @@
             }
         ],
         "origins": [
-            "visx.net"
+            "*.visx.net"
         ]
     }
 }

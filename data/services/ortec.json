@@ -15,7 +15,7 @@
             "id_ts"
         ],
         "origins": [
-            "adscience.nl"
+            "*.adscience.nl"
         ]
     }
 }

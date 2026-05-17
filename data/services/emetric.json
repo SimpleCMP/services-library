@@ -20,7 +20,7 @@
             }
         ],
         "origins": [
-            "xplosion.de"
+            "*.xplosion.de"
         ]
     }
 }

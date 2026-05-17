@@ -14,7 +14,7 @@
             "ADKUID"
         ],
         "origins": [
-            "adkernel.com"
+            "*.adkernel.com"
         ]
     }
 }

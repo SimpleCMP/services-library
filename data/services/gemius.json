@@ -13,7 +13,7 @@
             "Gdyn"
         ],
         "origins": [
-            "gemius.pl"
+            "*.gemius.pl"
         ]
     }
 }

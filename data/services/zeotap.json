@@ -30,7 +30,7 @@
             }
         ],
         "origins": [
-            "zeotap.com"
+            "*.zeotap.com"
         ]
     }
 }

@@ -27,7 +27,7 @@
             "XANDR_PANID"
         ],
         "origins": [
-            "adnxs.com"
+            "*.adnxs.com"
         ]
     }
 }

@@ -10,7 +10,7 @@
             "DSP_UID"
         ],
         "origins": [
-            "fidelity-media.com"
+            "*.fidelity-media.com"
         ]
     }
 }

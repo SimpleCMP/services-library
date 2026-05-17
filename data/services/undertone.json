@@ -13,7 +13,7 @@
             "UTID_ENC"
         ],
         "origins": [
-            "undertone.com"
+            "*.undertone.com"
         ]
     }
 }

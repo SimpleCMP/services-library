@@ -40,7 +40,7 @@
             "user_session"
         ],
         "origins": [
-            "github.com"
+            "*.github.com"
         ]
     }
 }

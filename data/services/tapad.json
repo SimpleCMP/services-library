@@ -13,7 +13,7 @@
             "TapAd_3WAY_SYNCS"
         ],
         "origins": [
-            "tapad.com"
+            "*.tapad.com"
         ]
     }
 }

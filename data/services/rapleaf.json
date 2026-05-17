@@ -12,7 +12,7 @@
             "rlas3"
         ],
         "origins": [
-            "rlcdn.com"
+            "*.rlcdn.com"
         ]
     }
 }

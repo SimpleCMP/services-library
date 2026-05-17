@@ -12,7 +12,7 @@
             "ljtrtb"
         ],
         "origins": [
-            "lijit.com"
+            "*.lijit.com"
         ]
     }
 }

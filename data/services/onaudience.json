@@ -11,7 +11,7 @@
             "/^done_redirects/"
         ],
         "origins": [
-            "onaudience.com"
+            "*.onaudience.com"
         ]
     }
 }

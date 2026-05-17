@@ -14,7 +14,7 @@
             }
         ],
         "origins": [
-            "atdmt.com"
+            "*.atdmt.com"
         ]
     }
 }

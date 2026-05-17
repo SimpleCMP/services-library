@@ -39,7 +39,7 @@
             "cecu"
         ],
         "origins": [
-            "crazyegg.com"
+            "*.crazyegg.com"
         ]
     }
 }

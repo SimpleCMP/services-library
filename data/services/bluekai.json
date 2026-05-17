@@ -16,7 +16,7 @@
             "bkpa"
         ],
         "origins": [
-            "bluekai.com"
+            "*.bluekai.com"
         ]
     }
 }

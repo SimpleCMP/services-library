@@ -14,7 +14,7 @@
             "sync"
         ],
         "origins": [
-            "3lift.com"
+            "*.3lift.com"
         ]
     }
 }

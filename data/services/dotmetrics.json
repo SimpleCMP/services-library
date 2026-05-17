@@ -14,7 +14,7 @@
             "DotMetrics.SessionCookieTempTimed"
         ],
         "origins": [
-            "dotmetrics.net"
+            "*.dotmetrics.net"
         ]
     }
 }

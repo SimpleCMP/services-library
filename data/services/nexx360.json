@@ -108,7 +108,7 @@
             "n360-yieldlab"
         ],
         "origins": [
-            "nexx360.io"
+            "*.nexx360.io"
         ]
     }
 }

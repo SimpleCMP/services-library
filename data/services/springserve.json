@@ -15,7 +15,7 @@
             }
         ],
         "origins": [
-            "springserve.com"
+            "*.springserve.com"
         ]
     }
 }

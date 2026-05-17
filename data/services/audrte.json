@@ -12,7 +12,7 @@
             "arcki2_ddp"
         ],
         "origins": [
-            "audrte.com"
+            "*.audrte.com"
         ]
     }
 }

@@ -15,7 +15,7 @@
             "/^_BEAMER_FILTER_BY_URL_/"
         ],
         "origins": [
-            "hotjar.com"
+            "*.hotjar.com"
         ]
     }
 }

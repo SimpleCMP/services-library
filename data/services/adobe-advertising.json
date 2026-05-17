@@ -28,7 +28,7 @@
             "id_adcloud"
         ],
         "origins": [
-            "everesttech.net"
+            "*.everesttech.net"
         ]
     }
 }

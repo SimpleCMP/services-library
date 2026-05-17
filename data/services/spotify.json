@@ -12,7 +12,7 @@
             "sp_landing"
         ],
         "origins": [
-            "spotify.com"
+            "*.spotify.com"
         ]
     }
 }

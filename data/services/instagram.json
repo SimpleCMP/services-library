@@ -22,7 +22,7 @@
             "sessionid"
         ],
         "origins": [
-            "instagram.com"
+            "*.instagram.com"
         ]
     }
 }

@@ -11,7 +11,7 @@
             "pl_user_id"
         ],
         "origins": [
-            "powerlinks.com"
+            "*.powerlinks.com"
         ]
     }
 }

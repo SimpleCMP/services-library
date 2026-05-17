@@ -18,7 +18,7 @@
             "/^CookieConsentBulkSetting\\-/"
         ],
         "origins": [
-            "cookiebot.com"
+            "*.cookiebot.com"
         ]
     }
 }

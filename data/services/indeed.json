@@ -19,7 +19,7 @@
             "pagead/conv/%INTEGER%"
         ],
         "origins": [
-            "indeed.com"
+            "*.indeed.com"
         ]
     }
 }

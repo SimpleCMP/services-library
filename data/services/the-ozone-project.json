@@ -11,7 +11,7 @@
             "ozone_uid"
         ],
         "origins": [
-            "the-ozone-project.com"
+            "*.the-ozone-project.com"
         ]
     }
 }

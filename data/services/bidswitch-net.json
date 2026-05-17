@@ -10,7 +10,7 @@
             "tuuid_lu"
         ],
         "origins": [
-            "bidswitch.net"
+            "*.bidswitch.net"
         ]
     }
 }

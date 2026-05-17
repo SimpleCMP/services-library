@@ -106,8 +106,8 @@
             }
         ],
         "origins": [
-            "bing.com",
-            "microsoft.com"
+            "*.bing.com",
+            "*.microsoft.com"
         ]
     }
 }

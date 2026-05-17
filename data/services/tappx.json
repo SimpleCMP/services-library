@@ -12,7 +12,7 @@
             "TXCD"
         ],
         "origins": [
-            "tappx.com"
+            "*.tappx.com"
         ]
     }
 }

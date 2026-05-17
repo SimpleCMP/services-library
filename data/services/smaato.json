@@ -20,7 +20,7 @@
             "SCM*"
         ],
         "origins": [
-            "smaato.net"
+            "*.smaato.net"
         ]
     }
 }

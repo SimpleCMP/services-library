@@ -14,7 +14,7 @@
             "uuid"
         ],
         "origins": [
-            "mathtag.com"
+            "*.mathtag.com"
         ]
     }
 }

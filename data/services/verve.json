@@ -12,7 +12,7 @@
             "lkqdidts"
         ],
         "origins": [
-            "lkqd.net"
+            "*.lkqd.net"
         ]
     }
 }

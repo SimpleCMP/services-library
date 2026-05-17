@@ -12,7 +12,7 @@
             "bito"
         ],
         "origins": [
-            "bidr.io"
+            "*.bidr.io"
         ]
     }
 }

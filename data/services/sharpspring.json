@@ -14,7 +14,7 @@
             "__ss"
         ],
         "origins": [
-            "marketingautomation.services"
+            "*.marketingautomation.services"
         ]
     }
 }

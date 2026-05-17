@@ -13,7 +13,7 @@
             "__trf.src"
         ],
         "origins": [
-            "amazon-adsystem.com"
+            "*.amazon-adsystem.com"
         ]
     }
 }

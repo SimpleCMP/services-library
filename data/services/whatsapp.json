@@ -12,7 +12,7 @@
             "wa_lang_pref"
         ],
         "origins": [
-            "whatsapp.com"
+            "*.whatsapp.com"
         ]
     }
 }

@@ -50,7 +50,7 @@
             "TCREDIRECT_DEDUP"
         ],
         "origins": [
-            "commander1.com"
+            "*.commander1.com"
         ]
     }
 }

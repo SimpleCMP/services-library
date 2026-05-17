@@ -16,8 +16,8 @@
             "tt_salesforce"
         ],
         "origins": [
-            "teads.com",
-            "teads.tv"
+            "*.teads.com",
+            "*.teads.tv"
         ]
     }
 }

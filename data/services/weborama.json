@@ -11,7 +11,7 @@
             "AFFICHE_W"
         ],
         "origins": [
-            "weborama.fr"
+            "*.weborama.fr"
         ]
     }
 }

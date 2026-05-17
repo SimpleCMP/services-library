@@ -21,7 +21,7 @@
             }
         ],
         "origins": [
-            "adscale.de"
+            "*.adscale.de"
         ]
     }
 }

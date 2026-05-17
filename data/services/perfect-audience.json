@@ -16,7 +16,7 @@
             "pa_uid"
         ],
         "origins": [
-            "prfct.co"
+            "*.prfct.co"
         ]
     }
 }
