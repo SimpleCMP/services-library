@@ -1,0 +1,9 @@
+{
+    "id": "google-tag-manager",
+    "addToMatches": {
+        "cookies": [
+            "cookiePreferences",
+            "td"
+        ]
+    }
+}

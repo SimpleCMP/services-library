@@ -1,0 +1,18 @@
+{
+    "id": "gumgum",
+    "name": "GumGum",
+    "vendor": "GumGum",
+    "purposes": [
+        "marketing"
+    ],
+    "privacyPolicyUrl": "https://gumgum.com/terms-and-policies/cookies-policy",
+    "matches": {
+        "cookies": [
+            "cs",
+            "vst"
+        ],
+        "origins": [
+            "gumgum.com"
+        ]
+    }
+}

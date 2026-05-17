@@ -1,0 +1,34 @@
+{
+    "id": "adobe-advertising",
+    "name": "Adobe Advertising",
+    "vendor": "Adobe",
+    "purposes": [
+        "marketing"
+    ],
+    "privacyPolicyUrl": "https://www.adobe.com/privacy.html",
+    "matches": {
+        "cookies": [
+            "everest_g_v2",
+            "everest_session_v2",
+            "ev_tm",
+            "_tmae",
+            "_lcc",
+            "ev_sync_ax",
+            "ev_sync_bk",
+            "ev_sync_dd",
+            "ev_sync_fs",
+            "ev_sync_ix",
+            "ev_sync_nx",
+            "ev_sync_ox",
+            "ev_sync_pm",
+            "ev_sync_rc",
+            "ev_sync_tm",
+            "ev_sync_yh",
+            "adcloud",
+            "id_adcloud"
+        ],
+        "origins": [
+            "everesttech.net"
+        ]
+    }
+}

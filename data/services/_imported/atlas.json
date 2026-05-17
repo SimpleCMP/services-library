@@ -1,0 +1,17 @@
+{
+    "id": "atlas",
+    "name": "Atlas",
+    "vendor": "Atlas",
+    "purposes": [
+        "marketing"
+    ],
+    "matches": {
+        "cookies": [
+            "AA003",
+            "ATN"
+        ],
+        "origins": [
+            "atdmt.com"
+        ]
+    }
+}

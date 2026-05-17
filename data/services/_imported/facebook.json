@@ -1,0 +1,43 @@
+{
+    "id": "facebook",
+    "name": "Facebook",
+    "vendor": "Facebook",
+    "purposes": [
+        "functional",
+        "marketing"
+    ],
+    "privacyPolicyUrl": "https://www.facebook.com/about/privacy/",
+    "matches": {
+        "cookies": [
+            "lu",
+            "xs",
+            "c_user",
+            "m_user",
+            "pl",
+            "dbln",
+            "aks",
+            "aksb",
+            "sfau",
+            "ick",
+            "csm",
+            "s",
+            "datr",
+            "sb",
+            "fr",
+            "oo",
+            "ddid",
+            "locale",
+            "_fbp",
+            "_fbc",
+            "js_ver",
+            "rc",
+            "campaign_click_url",
+            "wd",
+            "usida",
+            "presence"
+        ],
+        "origins": [
+            "facebook.com"
+        ]
+    }
+}

@@ -1,0 +1,13 @@
+{
+    "id": "amplitude",
+    "addToMatches": {
+        "cookies": [
+            "/^AMP_MKTG_/",
+            "/^amplitude_id_/",
+            "/^amplitude_test/"
+        ],
+        "origins": [
+            "amplitude.com"
+        ]
+    }
+}

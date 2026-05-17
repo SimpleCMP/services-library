@@ -1,0 +1,24 @@
+{
+    "id": "adobe-analytics",
+    "name": "Adobe Analytics",
+    "vendor": "Adobe",
+    "purposes": [
+        "analytics",
+        "functional",
+        "marketing"
+    ],
+    "privacyPolicyUrl": "https://www.adobe.com/nl/privacy.html",
+    "matches": {
+        "cookies": [
+            "s_cc",
+            "s_sq",
+            "/^s_vi/",
+            "s_fid",
+            "fid",
+            "s_ecid",
+            "s_ppv",
+            "s_tp",
+            "sat_track"
+        ]
+    }
+}

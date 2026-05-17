@@ -1,0 +1,52 @@
+{
+    "id": "pubmatic",
+    "name": "PubMatic",
+    "vendor": "Pubmatic",
+    "purposes": [
+        "analytics",
+        "functional",
+        "marketing"
+    ],
+    "privacyPolicyUrl": "https://pubmatic.com/legal/privacy/",
+    "matches": {
+        "cookies": [
+            "PUBMDCID",
+            "pp",
+            "SPugT",
+            "KADUSERCOOKIE",
+            "PUBRETARGET",
+            "KCCH",
+            "/^SyncRTB/",
+            "/^DPSync/",
+            "ADUSERCOOKIE",
+            "PugT",
+            "/^KRTBCOOKIE_/",
+            "f5_cspm",
+            "KTPCACOOKIE",
+            "COKENBLD",
+            "USCC",
+            "DPPIX_ON",
+            "SYNCUPPIX_ON",
+            "PUBUIDSYNCUPFQ",
+            "/^camfreq_/",
+            "/^pubfreq_/",
+            "/^pubtime_/",
+            "PMFREQ_ON",
+            "DPFQ",
+            "pi",
+            "FPtrust",
+            "_curtime",
+            "PMDTSHR",
+            "chk",
+            "chkSecSet",
+            "chkChromeAb67",
+            "chkChromeAb67Sec",
+            "pubsyncexp",
+            "ipc"
+        ],
+        "origins": [
+            "pubmatic.com",
+            "simage2.pubmatic.com"
+        ]
+    }
+}

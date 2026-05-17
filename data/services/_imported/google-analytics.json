@@ -1,0 +1,39 @@
+{
+    "id": "google-analytics",
+    "name": "Google Analytics",
+    "vendor": "Google",
+    "purposes": [
+        "analytics",
+        "functional",
+        "marketing"
+    ],
+    "privacyPolicyUrl": "https://business.safety.google/privacy/",
+    "matches": {
+        "cookies": [
+            "_ga",
+            "_gali",
+            "/^_ga_/",
+            "_gid",
+            "/^_gat/",
+            "/^_dc_gtm_/",
+            "AMP_TOKEN",
+            "/^_gat_gtag_/",
+            "/^_gac_/",
+            "__utma",
+            "__utmt",
+            "__utmb",
+            "__utmc",
+            "__utmz",
+            "__utmv",
+            "__utmx",
+            "__utmxx",
+            "FPAU",
+            "FPID",
+            "FPLC",
+            "GA_OPT_OUT"
+        ],
+        "origins": [
+            "google-analytics.com"
+        ]
+    }
+}

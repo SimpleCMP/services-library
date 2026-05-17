@@ -1,0 +1,11 @@
+{
+    "id": "stripe",
+    "addToMatches": {
+        "cookies": [
+            "m"
+        ],
+        "origins": [
+            "stripe.com"
+        ]
+    }
+}

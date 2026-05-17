@@ -1,0 +1,12 @@
+{
+    "id": "hotjar",
+    "addToMatches": {
+        "cookies": [
+            "hj_visitor",
+            "/^_hjIncludedInSessionSample/",
+            "/^_hjSession_/",
+            "/^_hjSessionUser_/",
+            "hjViewportId"
+        ]
+    }
+}

@@ -1,0 +1,25 @@
+{
+    "id": "adobe-audience-manager",
+    "name": "Adobe Audience Manager",
+    "vendor": "Adobe",
+    "purposes": [
+        "functional",
+        "marketing"
+    ],
+    "privacyPolicyUrl": "https://www.adobe.com/nl/privacy.html",
+    "matches": {
+        "cookies": [
+            "demdex",
+            "dextp",
+            "dst",
+            "_dp",
+            "aam_uuid",
+            "/^AMCV_/",
+            "/^AMCVS_/",
+            "mbox",
+            "at_check",
+            "renderid",
+            "dpm"
+        ]
+    }
+}

@@ -1,0 +1,21 @@
+{
+    "id": "google-optimize",
+    "name": "Google Optimize",
+    "vendor": "Google",
+    "purposes": [
+        "analytics",
+        "functional"
+    ],
+    "privacyPolicyUrl": "https://business.safety.google/privacy/",
+    "matches": {
+        "cookies": [
+            "_opt_awkid",
+            "_opt_awgid",
+            "_opt_awmid",
+            "_gaexp_rc",
+            "_opt_awcid",
+            "_opt_expid",
+            "_gaexp"
+        ]
+    }
+}

@@ -1,0 +1,20 @@
+{
+    "id": "admatic",
+    "name": "Admatic",
+    "vendor": "Admatic",
+    "purposes": [
+        "marketing"
+    ],
+    "privacyPolicyUrl": "http://www.admatic.com.tr/en/privacy-policy.html",
+    "matches": {
+        "cookies": [
+            "__adm_ui",
+            "__adm_uiex",
+            "__adm_usyncc",
+            "uids"
+        ],
+        "origins": [
+            "admatic.com.tr"
+        ]
+    }
+}

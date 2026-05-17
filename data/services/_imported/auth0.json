@@ -1,0 +1,22 @@
+{
+    "id": "auth0",
+    "name": "Auth0",
+    "vendor": "Auth0",
+    "purposes": [
+        "functional",
+        "security"
+    ],
+    "matches": {
+        "cookies": [
+            "auth0",
+            "auth0_compat",
+            "auth0-mf",
+            "auth0-mf_compat",
+            "a0_users:sess",
+            "a0_users:sess.sig",
+            "did",
+            "did_compat",
+            "/^__txn_/"
+        ]
+    }
+}

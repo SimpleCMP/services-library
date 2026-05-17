@@ -1,0 +1,25 @@
+{
+    "id": "google-adsense",
+    "name": "Google AdSense",
+    "vendor": "Google",
+    "purposes": [
+        "functional",
+        "marketing",
+        "security"
+    ],
+    "privacyPolicyUrl": "https://business.safety.google/privacy/",
+    "matches": {
+        "cookies": [
+            "__eoi",
+            "pm_sess",
+            "pm_sess_NNN",
+            "aboutads_sessNNN",
+            "ANID",
+            "__gsas",
+            "__gpi",
+            "__gpi_optout",
+            "GED_PLAYLIST_ACTIVITY",
+            "ACLK_DATA"
+        ]
+    }
+}

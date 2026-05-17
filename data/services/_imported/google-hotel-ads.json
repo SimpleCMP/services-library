@@ -1,0 +1,14 @@
+{
+    "id": "google-hotel-ads",
+    "name": "Google Hotel Ads",
+    "vendor": "Google",
+    "purposes": [
+        "marketing"
+    ],
+    "privacyPolicyUrl": "https://business.safety.google/privacy/",
+    "matches": {
+        "cookies": [
+            "_gcl_ha"
+        ]
+    }
+}

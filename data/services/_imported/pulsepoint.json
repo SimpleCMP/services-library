@@ -1,0 +1,17 @@
+{
+    "id": "pulsepoint",
+    "name": "Pulsepoint",
+    "vendor": "Pulsepoint",
+    "purposes": [
+        "marketing"
+    ],
+    "privacyPolicyUrl": "http://pulsepoints-new-website.webflow.io/privacy-policy/platform#consumer-choice",
+    "matches": {
+        "cookies": [
+            "_dbefe"
+        ],
+        "origins": [
+            "contextweb.com"
+        ]
+    }
+}

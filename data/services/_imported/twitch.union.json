@@ -1,0 +1,27 @@
+{
+    "id": "twitch",
+    "addToMatches": {
+        "cookies": [
+            "api_token",
+            "unique_id",
+            "unique_id_durable",
+            "session_unique_id",
+            "server_session_id",
+            "twitch.lohp.countryCode",
+            "auth-token",
+            "enable-compact-scene-listing",
+            "videoChat.notice_dismissed",
+            "chat_rules_shown",
+            "algoliasearch-client-js",
+            "device_id",
+            "referrer_url",
+            "sentry_device_id",
+            "session_storage_last_visited_twitch_url",
+            "local_storage_app_session_id"
+        ],
+        "origins": [
+            "twitch.tv",
+            "embed.twitch.tv"
+        ]
+    }
+}

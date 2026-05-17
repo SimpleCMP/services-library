@@ -1,0 +1,17 @@
+{
+    "id": "infonline",
+    "name": "infOnline",
+    "vendor": "infOnline",
+    "purposes": [
+        "marketing"
+    ],
+    "privacyPolicyUrl": "https://www.infonline.de/en/datenschutzerklaerung/",
+    "matches": {
+        "cookies": [
+            "i00"
+        ],
+        "origins": [
+            "ioam.de"
+        ]
+    }
+}

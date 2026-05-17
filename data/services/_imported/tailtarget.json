@@ -1,0 +1,28 @@
+{
+    "id": "tailtarget",
+    "name": "Tailtarget",
+    "vendor": "Totvs",
+    "purposes": [
+        "functional",
+        "marketing"
+    ],
+    "privacyPolicyUrl": "https://www.totvs.com/protecao-e-privacidade-de-dados/",
+    "matches": {
+        "cookies": [
+            "ttbprf",
+            "ttc",
+            "ttnprf",
+            "n",
+            "u",
+            "trk",
+            "ttca",
+            "/^tp/",
+            "dc",
+            "ttgcm",
+            "_ssc"
+        ],
+        "origins": [
+            "t.tailtarget.com"
+        ]
+    }
+}

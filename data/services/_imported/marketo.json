@@ -1,0 +1,20 @@
+{
+    "id": "marketo",
+    "name": "Marketo",
+    "vendor": "Adobe",
+    "purposes": [
+        "analytics"
+    ],
+    "privacyPolicyUrl": "https://www.adobe.com/privacy.html",
+    "matches": {
+        "cookies": [
+            "_biz_uid",
+            "_biz_nA",
+            "_biz_flagsA",
+            "_biz_pendingA",
+            "_biz_ABTestA",
+            "_biz_su",
+            "_biz_EventA"
+        ]
+    }
+}

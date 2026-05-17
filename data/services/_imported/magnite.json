@@ -1,0 +1,27 @@
+{
+    "id": "magnite",
+    "name": "Magnite",
+    "vendor": "Magnite",
+    "purposes": [
+        "marketing"
+    ],
+    "privacyPolicyUrl": "https://www.magnite.com/legal/platform-cookie-statement/",
+    "matches": {
+        "cookies": [
+            "khaos",
+            "audit",
+            "/^put_/",
+            "rpb",
+            "rpx",
+            "c",
+            "khaos_p",
+            "audit_p",
+            "/^tv_U/",
+            "tvid"
+        ],
+        "origins": [
+            "rubiconproject.com",
+            "tremorhub.com"
+        ]
+    }
+}

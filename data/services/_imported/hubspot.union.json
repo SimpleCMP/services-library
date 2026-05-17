@@ -1,0 +1,18 @@
+{
+    "id": "hubspot",
+    "addToMatches": {
+        "cookies": [
+            "hs_ab_test",
+            "hs-messages-is-open",
+            "hs-messages-hide-welcome-message",
+            "hs-membership-csrf",
+            "hs_langswitcher_choice",
+            "hubspotapi",
+            "hubspotapi-prefs",
+            "hubspotapi-csrf"
+        ],
+        "origins": [
+            "hubspot.com"
+        ]
+    }
+}

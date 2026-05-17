@@ -1,0 +1,18 @@
+{
+    "id": "google-maps",
+    "name": "Google Maps",
+    "vendor": "Google",
+    "purposes": [
+        "marketing"
+    ],
+    "privacyPolicyUrl": "https://business.safety.google/privacy/",
+    "matches": {
+        "cookies": [
+            "OGPC",
+            "OGP"
+        ],
+        "origins": [
+            "google.com"
+        ]
+    }
+}

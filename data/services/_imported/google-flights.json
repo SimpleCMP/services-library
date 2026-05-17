@@ -1,0 +1,14 @@
+{
+    "id": "google-flights",
+    "name": "Google Flights",
+    "vendor": "Google",
+    "purposes": [
+        "marketing"
+    ],
+    "privacyPolicyUrl": "https://business.safety.google/privacy/",
+    "matches": {
+        "cookies": [
+            "_gcl_gf"
+        ]
+    }
+}

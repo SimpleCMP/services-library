@@ -1,0 +1,15 @@
+{
+    "id": "microsoft-azure-app-insights",
+    "name": "Microsoft Azure App Insights",
+    "vendor": "Microsoft",
+    "purposes": [
+        "functional"
+    ],
+    "privacyPolicyUrl": "https://account.microsoft.com/privacy",
+    "matches": {
+        "cookies": [
+            "ai_session",
+            "ai_user"
+        ]
+    }
+}

@@ -1,0 +1,19 @@
+{
+    "id": "underdog-media",
+    "name": "Underdog Media",
+    "vendor": "Underdog Media",
+    "purposes": [
+        "marketing"
+    ],
+    "privacyPolicyUrl": "https://underdogmedia.com/privacy/",
+    "matches": {
+        "cookies": [
+            "dt",
+            "rtbh",
+            "udmts"
+        ],
+        "origins": [
+            "udmserve.net"
+        ]
+    }
+}

@@ -1,0 +1,8 @@
+{
+    "id": "crisp",
+    "addToMatches": {
+        "cookies": [
+            "/^crisp\\-client\\//"
+        ]
+    }
+}

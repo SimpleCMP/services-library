@@ -1,0 +1,14 @@
+{
+    "id": "vimeo",
+    "addToMatches": {
+        "cookies": [
+            "Player",
+            "continuous_play_v3",
+            "sd_identity",
+            "sd_client_id"
+        ],
+        "origins": [
+            "vimeo.com"
+        ]
+    }
+}

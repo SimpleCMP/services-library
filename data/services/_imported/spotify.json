@@ -1,0 +1,18 @@
+{
+    "id": "spotify",
+    "name": "Spotify",
+    "vendor": "Spotify",
+    "purposes": [
+        "functional"
+    ],
+    "privacyPolicyUrl": "https://www.spotify.com/us/privacy/",
+    "matches": {
+        "cookies": [
+            "sp_t",
+            "sp_landing"
+        ],
+        "origins": [
+            "spotify.com"
+        ]
+    }
+}

@@ -1,0 +1,27 @@
+{
+    "id": "pinterest",
+    "name": "Pinterest",
+    "vendor": "Pinterest",
+    "purposes": [
+        "functional",
+        "marketing"
+    ],
+    "privacyPolicyUrl": "https://policy.pinterest.com/en/privacy-policy",
+    "matches": {
+        "cookies": [
+            "_pinterest_cm",
+            "_pinterest_sess",
+            "_pin_unauth",
+            "_pinterest_ct_ua",
+            "sessionFunnelEventLogged",
+            "_routing_id",
+            "_derived_epik",
+            "_pinterest_ct",
+            "_pinterest_ct_rt",
+            "_epik"
+        ],
+        "origins": [
+            "pinterest.com"
+        ]
+    }
+}

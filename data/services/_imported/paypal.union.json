@@ -1,0 +1,16 @@
+{
+    "id": "paypal",
+    "addToMatches": {
+        "cookies": [
+            "enforce_policy",
+            "tsrce",
+            "nsid",
+            "X-PP-SILOVER",
+            "X-PP-L7",
+            "l7_az"
+        ],
+        "origins": [
+            "paypal.com"
+        ]
+    }
+}

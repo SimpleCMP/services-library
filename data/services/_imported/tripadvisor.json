@@ -1,0 +1,24 @@
+{
+    "id": "tripadvisor",
+    "name": "Tripadvisor",
+    "vendor": "Tripadvisor",
+    "purposes": [
+        "analytics",
+        "functional",
+        "marketing"
+    ],
+    "privacyPolicyUrl": "https://tripadvisor.mediaroom.com/us-privacy-policy",
+    "matches": {
+        "cookies": [
+            "RT",
+            "TADCID",
+            "ServerPool",
+            "TATravelInfo",
+            "TAUnique",
+            "TAReturnTo"
+        ],
+        "origins": [
+            "www.tamgrt.com"
+        ]
+    }
+}

@@ -1,0 +1,18 @@
+{
+    "id": "microsoft-dynamics",
+    "name": "Microsoft Dynamics",
+    "vendor": "Microsoft",
+    "purposes": [
+        "functional"
+    ],
+    "privacyPolicyUrl": "https://account.microsoft.com/privacy",
+    "matches": {
+        "cookies": [
+            "AADNonce.forms",
+            "DcLcid"
+        ],
+        "origins": [
+            "forms.office.comm"
+        ]
+    }
+}

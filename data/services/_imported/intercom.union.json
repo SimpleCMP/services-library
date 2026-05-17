@@ -1,0 +1,10 @@
+{
+    "id": "intercom",
+    "addToMatches": {
+        "cookies": [
+            "/^intercom\\-id\\-/",
+            "/^intercom\\-session\\-/",
+            "/^intercom\\-device\\-id\\-/"
+        ]
+    }
+}

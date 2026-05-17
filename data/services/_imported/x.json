@@ -1,0 +1,39 @@
+{
+    "id": "x",
+    "name": "X",
+    "vendor": "X",
+    "purposes": [
+        "marketing",
+        "security"
+    ],
+    "privacyPolicyUrl": "https://twitter.com/en/privacy",
+    "matches": {
+        "cookies": [
+            "guest_id",
+            "personalization_id",
+            "ct0",
+            "gt",
+            "guest_id_marketing",
+            "guest_id_ads",
+            "muc_ads",
+            "_twitter_sess",
+            "ads_prefs",
+            "auth_token",
+            "csrf_same_site",
+            "csrf_same_site_set",
+            "dnt",
+            "eu_cn",
+            "external_referer",
+            "kdt",
+            "remember_checked_on",
+            "rweb_optin",
+            "syndication_guest_id",
+            "twid",
+            "tfw_exp"
+        ],
+        "origins": [
+            "twitter.com",
+            "t.co"
+        ]
+    }
+}

@@ -1,0 +1,17 @@
+{
+    "id": "google-surveys",
+    "name": "Google Surveys",
+    "vendor": "Google",
+    "purposes": [
+        "marketing"
+    ],
+    "privacyPolicyUrl": "https://business.safety.google/privacy/",
+    "matches": {
+        "cookies": [
+            "PAIDCONTENT"
+        ],
+        "origins": [
+            "doubleclick.net"
+        ]
+    }
+}

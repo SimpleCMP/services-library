@@ -1,0 +1,8 @@
+{
+    "id": "tawk-to",
+    "addToMatches": {
+        "cookies": [
+            "/^tawk_/"
+        ]
+    }
+}

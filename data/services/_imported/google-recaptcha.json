@@ -1,0 +1,17 @@
+{
+    "id": "google-recaptcha",
+    "name": "Google reCAPTCHA",
+    "vendor": "Google",
+    "purposes": [
+        "functional"
+    ],
+    "privacyPolicyUrl": "https://business.safety.google/privacy/",
+    "matches": {
+        "cookies": [
+            "_GRECAPTCHA"
+        ],
+        "origins": [
+            "google.com"
+        ]
+    }
+}

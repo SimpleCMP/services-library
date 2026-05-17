@@ -1,0 +1,27 @@
+{
+    "id": "outbrain",
+    "addToMatches": {
+        "cookies": [
+            "cookieJartestCookie",
+            "apnxs",
+            "criteo",
+            "mdfrc",
+            "adrl",
+            "ttd",
+            "recs",
+            "bdswch",
+            "/^obsessionid\\-/",
+            "opout",
+            "/^recs\\-/",
+            "europe",
+            "ref-",
+            "auid",
+            "outbrain_dicbo_id",
+            "unifiedPixel",
+            "dicbo_id"
+        ],
+        "origins": [
+            "outbrain.com"
+        ]
+    }
+}

@@ -1,0 +1,15 @@
+{
+    "id": "taboola",
+    "addToMatches": {
+        "cookies": [
+            "t_gid",
+            "t_pt_gid",
+            "abLdr",
+            "abMbl",
+            "tb_click_param"
+        ],
+        "origins": [
+            "taboola.com"
+        ]
+    }
+}

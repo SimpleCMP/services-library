@@ -1,0 +1,12 @@
+{
+    "id": "typeform",
+    "addToMatches": {
+        "cookies": [
+            "tf_respondent_cc",
+            "attribution_user_id"
+        ],
+        "origins": [
+            "typeform.com"
+        ]
+    }
+}

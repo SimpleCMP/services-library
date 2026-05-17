@@ -1,0 +1,17 @@
+{
+    "id": "semasio-net",
+    "name": "semasio.net",
+    "vendor": "semasio.net",
+    "purposes": [
+        "marketing"
+    ],
+    "privacyPolicyUrl": "http://www.semasio.net",
+    "matches": {
+        "cookies": [
+            "SEUNCY"
+        ],
+        "origins": [
+            "semasio.net"
+        ]
+    }
+}

@@ -1,0 +1,18 @@
+{
+    "id": "adscale-de",
+    "name": "adscale.de",
+    "vendor": "adscale.de",
+    "purposes": [
+        "marketing"
+    ],
+    "matches": {
+        "cookies": [
+            "uu",
+            "cct",
+            "tu"
+        ],
+        "origins": [
+            "adscale.de"
+        ]
+    }
+}

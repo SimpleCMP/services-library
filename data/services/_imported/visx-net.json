@@ -1,0 +1,16 @@
+{
+    "id": "visx-net",
+    "name": "Visx.net",
+    "vendor": "visx.net",
+    "purposes": [
+        "marketing"
+    ],
+    "matches": {
+        "cookies": [
+            "um2"
+        ],
+        "origins": [
+            "visx.net"
+        ]
+    }
+}
