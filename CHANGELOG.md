@@ -5,6 +5,17 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## Unreleased
 
+## 0.2.1 — 2026-05-17
+
+### Fixed
+
+- Three OCD-derived services (admatic, pulsepoint, semasio-net)
+  shipped with `http://` privacy-policy URLs, failing the library's
+  schema test (requires HTTPS). The translator now drops
+  privacyPolicyUrl when it isn't HTTPS; the three affected JSONs
+  have the field removed. Auto-upgrading the scheme is unsafe — a
+  broken link is worse than a missing one.
+
 ## 0.2.0 — 2026-05-17
 
 Major expansion. The library grows ~9× via a one-shot import from
