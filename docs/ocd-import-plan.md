@@ -62,14 +62,21 @@ rather than mostly *unbekannt* rows (full curation needed).
 Build `bin/import-ocd.php` (a one-shot script, lives in this repo —
 not the consumer plugins). For each OCD row:
 
-#### 2a — Group by vendor
+#### 2a — Group by Platform; vendor flows through from Data Controller
 
-OCD has one row per cookie. We want one JSON per service. Group by
-the OCD "Data Controller" (vendor) field, fall back to the
-"Domain" field when the controller is empty.
+OCD has one row per cookie. We want one JSON per service. The
+*service identity* is the OCD `Platform` field (the product name —
+"Google Analytics", "Google Tag Manager", "YouTube"), slugified to
+form the `service_id`. The OCD `Data Controller` flows through as
+the JSON's `vendor` display field unchanged.
 
-A single Google Analytics service ends up with `_ga`, `_gid`,
-`_gat`, `__utm*`, etc. all in its `matches.cookies` array.
+This mirrors our hand-curated library: separate services for
+`google-analytics`, `google-tag-manager`, `youtube` — all with
+`vendor: "Google"`. Multiple Platforms under one Data Controller
+become multiple services, not one mega-service.
+
+When `Platform` is empty (rare in OCD), fall back to the `Domain`
+field for the slug.
 
 #### 2b — Collapse cookie families into regex
 
@@ -88,20 +95,27 @@ unrelated cookies as known.
 
 #### 2c — Map purposes
 
-OCD uses its own taxonomy: `Functional`, `Marketing`, `Statistics`,
-`Preferences`, `Unclassified`. Map to SimpleCMP purposes:
+The pinned 2026-01-21 OCD snapshot uses six categories
+(actual distribution in parentheses):
 
-| OCD              | SimpleCMP                   |
-|------------------|------------------------------|
-| `Functional`     | `functional`                 |
-| `Marketing`      | `marketing` (+ `advertising` for known ad networks) |
-| `Statistics`     | `analytics`                  |
-| `Preferences`    | `personalization`            |
-| `Unclassified`   | (none — leave `purposes: []`) |
+| OCD              | SimpleCMP                    | Rows |
+|------------------|------------------------------|------|
+| `Functional`     | `functional`                 | 977  |
+| `Marketing`      | `marketing` (+ `advertising` for known ad networks) | 861  |
+| `Analytics`      | `analytics`                  | 390  |
+| `Security`       | `security`                   | 24   |
+| `Necessary`      | `functional`                 | 9    |
+| `Personalization`| `personalization`            | 3    |
 
-The `Unclassified` rows are imported but left without purposes —
-they appear in the registry but a curator has to fill in purposes
-before they're useful in the FE consent flow.
+Future OCD snapshots may introduce an `Unclassified` category for
+cookies awaiting categorization. When that happens, those rows are
+imported with `purposes: []` per D2 — the vendor and privacy-URL
+data is still useful even without purposes, and the TYPO3 ext
+refuses to save no-purposes services anyway.
+
+When an OCD service ends up with multiple categories across its
+cookies (e.g. some rows say `Functional`, others say `Marketing`),
+the generated service's `purposes` is the union — deduplicated.
 
 #### 2d — Derive `origins` opportunistically
 
@@ -118,13 +132,15 @@ When the OCD row has no domain, leave `matches.origins` empty.
 #### 2e — Union into existing services; emit new services for the rest
 
 Read the existing `data/services/*.json` files. For each OCD-derived
-service the translator produces:
+service (keyed by Platform-slug), the translator does one of two
+things:
 
-- If the canonical vendor matches a hand-curated service (by `vendor`
-  field OR `service_id` collision): **union OCD's `matches.cookies`
-  and `matches.origins` into the hand-curated service**, deduplicated
-  against the existing matcher arrays. All other fields (`name`,
-  `vendor`, `description`, `purposes`, `privacyPolicyUrl`, `retention`,
+- If the slug collides with a hand-curated service's `id` (e.g.
+  OCD's "Google Analytics" → `google-analytics`, which we already
+  have): **union OCD's `matches.cookies` and `matches.origins`
+  into the hand-curated service**, deduplicated against the
+  existing matcher arrays. All other fields (`name`, `vendor`,
+  `description`, `purposes`, `privacyPolicyUrl`, `retention`,
   `i18n`) are preserved unchanged — hand curation wins on display.
 - Otherwise: emit a new service file under `data/services/_imported/`
   for the review pass.
@@ -197,36 +213,44 @@ The TYPO3 ext pulls `simplecmp/services-library: ^0.1` →
 
 ## Decisions
 
-### D1 — Vendor canonicalization with a hardcoded map (decided 2026-05-17)
+### D1 — Identity = `Platform`, vendor passes through unchanged (decided 2026-05-17)
 
-OCD lists the same vendor under multiple names ("Google", "Google
-LLC", "Google Inc."). The import script maintains a hardcoded
-canonicalization map for the top 30 vendors; entries not in the map
-keep their literal OCD name.
+`service_id` is derived from OCD's `Platform` column (the product
+name — "Google Analytics", "YouTube"), slugified. The OCD
+`Data Controller` flows through as the JSON's `vendor` display
+field verbatim. No canonicalization map is needed at import time.
 
-**`service_id` is permanent once shipped** — this is the rule that
-makes canonicalization safe. Renames only ever update display fields
-(`name`, `vendor`); `id` never changes. Consumer plugins (TYPO3 ext,
-future WP / Contao plugins) can rely on this — they store the `id`
-in their own tables and trust that future library releases keep
-classifying the same cookies under the same key.
+This came out of two observations:
 
-Practical consequences for the import:
+1. **Our hand-curated library is already shaped by product, not
+   vendor.** `google-analytics`, `google-tag-manager`, and
+   `youtube` are three separate services, all with `vendor:
+   "Google"`. Mapping OCD's `Platform` to `service_id` matches
+   what we already do; mapping OCD's `Data Controller` to
+   `vendor` carries the legal-entity string through unchanged.
 
-- Decide canonicalization **before Step 2**, not after. If we later
-  realize "Meta Platforms Ireland Ltd." should map to "Meta" but
-  we already shipped `meta-platforms-ireland-ltd`, we cannot retro-
-  rename — the orphan would stay in consumer registries forever.
-- The first batch of OCD-derived services therefore goes through a
-  canonicalization map review pass *first*, then translation.
-- For new vendors appearing in future OCD re-imports: if they look
-  like a variant of an existing canonical vendor, add a map entry
-  *before* re-running the import (so the new rows land under the
-  existing `id`). If they're genuinely new, they get their own `id`.
+2. **OCD's data is well-curated.** Inspection of the 322 unique
+   Data Controllers in the 2026-01-21 snapshot turned up only a
+   handful of casing variants (`Pubmatic` vs `PubMatic`,
+   `GitHub` vs `Github`) and a few `.com`-suffix forms. None of
+   these affect `service_id` (which comes from `Platform`); they
+   only produce minor display inconsistencies in the `vendor`
+   field. Worth tolerating — the BE detection list and FE consent
+   UI both render fine.
 
-The canonical map lives at `bin/ocd-canonical-map.php` (proposed
-location); contributions add rows when re-imports surface new
-variants.
+If display inconsistencies turn out to matter post-launch
+(admins complaining about seeing `Shopify.com` instead of
+`Shopify`), the response is a focused per-row fix in
+`data/services/_imported/*.json` during the review pass —
+not a runtime canonical-map machinery.
+
+**`service_id` is permanent once shipped** — this is the durable
+rule, independent of the canonicalization question. Renames only
+ever update display fields (`name`, `vendor`); `id` never changes.
+Consumer plugins (TYPO3 ext, future WP / Contao plugins) can rely
+on this — they store the `id` in their own tables and trust future
+library releases to keep classifying the same cookies under the
+same key.
 
 ### D2 — Include `Unclassified` OCD rows with empty `purposes` (decided 2026-05-17)
 
