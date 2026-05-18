@@ -9,7 +9,6 @@
     "matches": {
         "cookies": [
             "/^_ut/",
-            "/^_s/",
             "/^_lv/",
             "_nrbi",
             "compass_sid",

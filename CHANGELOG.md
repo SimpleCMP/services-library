@@ -5,6 +5,31 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## Unreleased
 
+### Fixed
+
+- **Apex-domain origin literals migrated to wildcard form.** 140
+  OCD-derived services shipped with origins like `example.com`
+  (literal), which only match the apex exactly. Real trackers
+  loading from `www.example.com` or `cdn.example.com` slipped
+  past classification. Rewritten as `*.example.com` (matches apex
+  + every subdomain per the existing `originMatches` semantics).
+  Hand-curated services were already using wildcards correctly.
+  The translator (`bin/import-ocd.php`) now emits the wildcard
+  form automatically for 2-label domains; 3+ label literals stay
+  as-is. Migration script `bin/migrate-apex-origins.php` is
+  idempotent — re-running it is a no-op once the data is clean.
+- **YouTube origin coverage** (`data/services/youtube.json`).
+  OCD's apex `youtube.com` literal didn't match `www.youtube.com`
+  iframe embeds. Added `*.youtube.com`, `*.googlevideo.com`,
+  `*.ytimg.com` so real YouTube integrations classify.
+
+### Added
+
+- **`bin/migrate-apex-origins.php`** — one-shot migration script
+  for the apex-literal → wildcard rewrite above. Conservative:
+  only touches services whose origin list consists ENTIRELY of
+  2-label apex literals.
+
 ## 0.2.1 — 2026-05-17
 
 ### Fixed
