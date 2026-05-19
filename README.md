@@ -11,21 +11,22 @@ import the records into their own registry.
 
 ## What's in it
 
-40 services covering:
+**350+ services** covering analytics, ad networks, embeds, forms /
+captcha, chat widgets, payments, maps, monitoring, fonts, tag
+management, and a long tail of region-specific ad-tech. Each lives in
+`data/services/<id>.json` — `ls data/services` is the source of truth
+for the current set; a hand-maintained category list would rot too
+fast at this size.
 
-- **Analytics** (6): Mixpanel, Hotjar, Plausible, Fathom, Amplitude, Heap
-- **Ad networks** (8): LinkedIn Insight, TikTok Pixel, Pinterest Tag,
-  X Pixel, Snapchat Pixel, Microsoft Bing UET, Outbrain, Taboola
-- **Embeds** (5): Vimeo, Instagram, Spotify, SoundCloud, Twitch
-- **Forms / captcha** (4): hCaptcha, Cloudflare Turnstile, Typeform, JotForm
-- **Chat widgets** (6): Intercom, Drift, Crisp, Tawk.to, Zendesk Chat, HubSpot
-- **Payments** (3): Stripe, PayPal, Klarna
-- **Maps** (1): Mapbox
-- **Monitoring** (3): Bugsnag, LogRocket, Rollbar
-- **Fonts** (1): Adobe Fonts (Typekit)
-- **Tag management / email / comments** (3): Google Tag Manager, Mailchimp, Disqus
+Where the data comes from:
 
-Each lives in `data/services/<id>.json`.
+- **Hand-curated cores** — Stripe, Google Analytics, Hotjar, Intercom,
+  Mixpanel, YouTube, Vimeo, LinkedIn Insight, hCaptcha, Cloudflare
+  Turnstile, etc. — written from each vendor's own docs.
+- **OCD-derived bulk** — a large chunk was translated from the
+  [Open Cookie Database](https://github.com/jkwakman/Open-Cookie-Database)
+  via `bin/import-ocd.php`, then re-shaped to the protocol schema
+  (slash-bounded regex matchers where OCD used wildcards, etc.).
 
 ## Usage (PHP consumers)
 
@@ -60,12 +61,34 @@ Each JSON file conforms to the upstream Service-DB protocol:
 | `purposes` | array of enum | yes | `analytics`, `marketing`, `advertising`, `functional`, `personalization`, `security` |
 | `privacyPolicyUrl` | HTTPS URL | recommended | Vendor's privacy policy |
 | `description` | string | recommended | Short factual EN description |
-| `matches.cookies` | array of strings | one of cookies/origins | Exact names or `/regex/` patterns |
-| `matches.origins` | array of strings | one of cookies/origins | Exact hosts or `*.suffix` wildcards |
+| `matches.cookies` | array | one of cookies/origins | Each entry is either a string (exact name or `/regex/`) or a `{ name, requireOrigin }` object (host-qualified — only fires when the runtime has also observed the qualifying origin). |
+| `matches.origins` | array of strings | one of cookies/origins | Exact hosts (`maps.googleapis.com`) or wildcard form `*.suffix` (matches both the apex `suffix` and every subdomain `*.suffix`). |
 | `retention` | object | optional | `{display, durationDays}` |
 | `i18n` | object | optional | Per-language overrides for `title` and `description` |
 
 Tests validate the schema on every PR.
+
+### Host-qualified cookie matchers
+
+55 services use the object form `{ name, requireOrigin }` on at least
+one cookie matcher. Use it whenever the bare cookie name is too
+generic to be safely attributable to one tracker. Concrete examples in
+the library:
+
+- Stripe's session cookie `m` — set by Stripe but also by countless
+  unrelated sites. Without a host qualifier, every site that happens
+  to use a cookie called `m` would false-classify as Stripe.
+- GTM's `td`, Bing's `MR` / `MC0` / `CC`, generic GA fallbacks.
+
+The qualifier is satisfied when the recorder observes a network
+request to the listed origin in the same session. The classifier
+re-validates retroactively when a qualifying origin arrives *after*
+the cookie was first seen (`enrichDetection` path). See SimpleCMP
+[ADR-0010](https://github.com/SimpleCMP/simplecmp/blob/main/docs/adr/0010-host-qualified-cookie-matchers.md)
+for the full design.
+
+Backwards-compatible — string entries continue to work and consumers
+that ignore the object form fall back to a name-only match.
 
 ## Stability
 
