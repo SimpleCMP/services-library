@@ -16,5 +16,10 @@
             "*.ttvnw.net"
         ]
     },
-    "placeholderDescription": "This Twitch stream will set tracking cookies from Twitch (Amazon) when loaded."
+    "placeholderDescription": "This Twitch stream will set tracking cookies from Twitch (Amazon) when loaded.",
+    "i18n": {
+        "placeholderDescription": {
+            "de": "Dieser Twitch-Stream setzt Tracking-Cookies von Twitch (Amazon), sobald er geladen wird."
+        }
+    }
 }

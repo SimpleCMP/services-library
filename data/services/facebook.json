@@ -76,5 +76,10 @@
             "*.facebook.com"
         ]
     },
-    "placeholderDescription": "This Facebook embed (Meta) will set tracking cookies when loaded."
+    "placeholderDescription": "This Facebook embed (Meta) will set tracking cookies when loaded.",
+    "i18n": {
+        "placeholderDescription": {
+            "de": "Dieser Facebook-Inhalt (Meta) setzt Tracking-Cookies, sobald er geladen wird."
+        }
+    }
 }

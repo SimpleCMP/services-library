@@ -48,5 +48,10 @@
             "*.t.co"
         ]
     },
-    "placeholderDescription": "This post is embedded from X (formerly Twitter) and will set tracking cookies when loaded."
+    "placeholderDescription": "This post is embedded from X (formerly Twitter) and will set tracking cookies when loaded.",
+    "i18n": {
+        "placeholderDescription": {
+            "de": "Dieser Beitrag ist von X (ehemals Twitter) eingebettet und setzt Tracking-Cookies, sobald er geladen wird."
+        }
+    }
 }

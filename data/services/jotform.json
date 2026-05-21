@@ -15,5 +15,10 @@
             "*.jotform.com"
         ]
     },
-    "placeholderDescription": "This JotForm-hosted form will set tracking cookies when loaded."
+    "placeholderDescription": "This JotForm-hosted form will set tracking cookies when loaded.",
+    "i18n": {
+        "placeholderDescription": {
+            "de": "Dieses von JotForm gehostete Formular setzt Tracking-Cookies, sobald es geladen wird."
+        }
+    }
 }

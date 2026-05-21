@@ -14,5 +14,10 @@
             "*.typeform.com"
         ]
     },
-    "placeholderDescription": "This Typeform-hosted form will set Typeform tracking cookies when loaded."
+    "placeholderDescription": "This Typeform-hosted form will set Typeform tracking cookies when loaded.",
+    "i18n": {
+        "placeholderDescription": {
+            "de": "Dieses von Typeform gehostete Formular setzt Typeform-Tracking-Cookies, sobald es geladen wird."
+        }
+    }
 }

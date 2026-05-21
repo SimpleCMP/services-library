@@ -16,5 +16,10 @@
             "*.sndcdn.com"
         ]
     },
-    "placeholderDescription": "This SoundCloud player will set tracking cookies from SoundCloud when loaded."
+    "placeholderDescription": "This SoundCloud player will set tracking cookies from SoundCloud when loaded.",
+    "i18n": {
+        "placeholderDescription": {
+            "de": "Dieser SoundCloud-Player setzt Tracking-Cookies von SoundCloud, sobald er geladen wird."
+        }
+    }
 }

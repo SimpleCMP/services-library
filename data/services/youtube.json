@@ -31,5 +31,10 @@
             "*.ytimg.com"
         ]
     },
-    "placeholderDescription": "This YouTube embed is hosted by Google and will set tracking cookies when loaded."
+    "placeholderDescription": "This YouTube embed is hosted by Google and will set tracking cookies when loaded.",
+    "i18n": {
+        "placeholderDescription": {
+            "de": "Dieses YouTube-Video wird von Google bereitgestellt und setzt Tracking-Cookies, sobald es geladen wird."
+        }
+    }
 }

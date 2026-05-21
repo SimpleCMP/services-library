@@ -15,5 +15,10 @@
             "*.tiles.mapbox.com"
         ]
     },
-    "placeholderDescription": "This map is rendered by Mapbox and will share your IP and device data with Mapbox when loaded."
+    "placeholderDescription": "This map is rendered by Mapbox and will share your IP and device data with Mapbox when loaded.",
+    "i18n": {
+        "placeholderDescription": {
+            "de": "Diese Karte wird von Mapbox dargestellt und übermittelt Ihre IP-Adresse und Geräte-Daten an Mapbox, sobald sie geladen wird."
+        }
+    }
 }

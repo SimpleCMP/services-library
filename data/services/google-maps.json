@@ -18,5 +18,10 @@
             "*.google.com"
         ]
     },
-    "placeholderDescription": "This map is provided by Google Maps and will share your IP and device data with Google when loaded."
+    "placeholderDescription": "This map is provided by Google Maps and will share your IP and device data with Google when loaded.",
+    "i18n": {
+        "placeholderDescription": {
+            "de": "Diese Karte wird von Google Maps bereitgestellt und übermittelt Ihre IP-Adresse und Geräte-Daten an Google, sobald sie geladen wird."
+        }
+    }
 }

@@ -17,5 +17,10 @@
             "*.hcaptcha.com"
         ]
     },
-    "placeholderDescription": "This form uses hCaptcha. The challenge widget loads scripts and may set cookies from hCaptcha."
+    "placeholderDescription": "This form uses hCaptcha. The challenge widget loads scripts and may set cookies from hCaptcha.",
+    "i18n": {
+        "placeholderDescription": {
+            "de": "Dieses Formular nutzt hCaptcha. Das Widget lädt Skripte und kann Cookies von hCaptcha setzen."
+        }
+    }
 }

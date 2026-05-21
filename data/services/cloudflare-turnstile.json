@@ -13,5 +13,10 @@
             "challenges.cloudflare.com"
         ]
     },
-    "placeholderDescription": "This form uses Cloudflare Turnstile to verify visitors. Loading it runs scripts from Cloudflare."
+    "placeholderDescription": "This form uses Cloudflare Turnstile to verify visitors. Loading it runs scripts from Cloudflare.",
+    "i18n": {
+        "placeholderDescription": {
+            "de": "Dieses Formular nutzt Cloudflare Turnstile zur Besucher-Verifikation. Beim Laden werden Skripte von Cloudflare ausgeführt."
+        }
+    }
 }

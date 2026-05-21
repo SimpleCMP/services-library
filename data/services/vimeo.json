@@ -21,5 +21,10 @@
             "*.vimeocdn.com"
         ]
     },
-    "placeholderDescription": "This Vimeo embed will set tracking cookies from Vimeo when loaded."
+    "placeholderDescription": "This Vimeo embed will set tracking cookies from Vimeo when loaded.",
+    "i18n": {
+        "placeholderDescription": {
+            "de": "Dieses Vimeo-Video setzt Tracking-Cookies von Vimeo, sobald es geladen wird."
+        }
+    }
 }

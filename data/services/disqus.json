@@ -20,5 +20,10 @@
             "*.disquscdn.com"
         ]
     },
-    "placeholderDescription": "Comments are powered by Disqus. Loading them will set Disqus tracking cookies."
+    "placeholderDescription": "Comments are powered by Disqus. Loading them will set Disqus tracking cookies.",
+    "i18n": {
+        "placeholderDescription": {
+            "de": "Die Kommentare werden von Disqus bereitgestellt. Beim Laden werden Disqus-Tracking-Cookies gesetzt."
+        }
+    }
 }
