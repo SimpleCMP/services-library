@@ -30,5 +30,6 @@
             "*.googlevideo.com",
             "*.ytimg.com"
         ]
-    }
+    },
+    "placeholderDescription": "This YouTube embed is hosted by Google and will set tracking cookies when loaded."
 }

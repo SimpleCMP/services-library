@@ -65,6 +65,8 @@ Each JSON file conforms to the upstream Service-DB protocol:
 | `matches.origins` | array of strings | one of cookies/origins | Exact hosts (`maps.googleapis.com`) or wildcard form `*.suffix` (matches both the apex `suffix` and every subdomain `*.suffix`). |
 | `retention` | object | optional | `{display, durationDays}` |
 | `i18n` | object | optional | Per-language overrides for `title` and `description` |
+| `placeholderTitle` | string | optional | Short title for the click-to-enable placeholder UI (when SimpleCMP auto-inserts a `<simplecmp-contextual-notice>` next to a blocked embed). Falls back to `name`/`title` when unset. |
+| `placeholderDescription` | string | optional | One-sentence description for the click-to-enable placeholder UI — what the visitor would load by enabling. Falls back to the engine's default `contextualConsent.description` template when unset. |
 
 Tests validate the schema on every PR.
 

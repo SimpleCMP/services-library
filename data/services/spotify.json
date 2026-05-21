@@ -14,5 +14,6 @@
         "origins": [
             "*.spotify.com"
         ]
-    }
+    },
+    "placeholderDescription": "This Spotify player will set tracking cookies from Spotify when loaded."
 }

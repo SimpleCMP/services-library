@@ -75,5 +75,6 @@
         "origins": [
             "*.facebook.com"
         ]
-    }
+    },
+    "placeholderDescription": "This Facebook embed (Meta) will set tracking cookies when loaded."
 }

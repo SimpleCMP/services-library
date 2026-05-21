@@ -5,6 +5,21 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## Unreleased
 
+### Added
+
+- **Optional `placeholderTitle` / `placeholderDescription` fields**
+  for the click-to-enable placeholder UI that SimpleCMP auto-inserts
+  next to blocked embeds (`<simplecmp-contextual-notice>`). The
+  consuming SimpleCMP engine reads these as
+  `service.placeholderTitle` / `service.placeholderDescription` and
+  falls back to the existing `name` / default i18n description when
+  unset, so the new fields are purely additive — no existing
+  consumer breaks if they don't pass the new fields through.
+  Curated `placeholderDescription` copy added for 15 of the
+  most-embedded services: YouTube, Vimeo, Google Maps, Instagram, X
+  (Twitter), Spotify, SoundCloud, Twitch, Facebook, hCaptcha,
+  Cloudflare Turnstile, Typeform, JotForm, Disqus, Mapbox.
+
 ### Fixed
 
 - **Apex-domain origin literals migrated to wildcard form.** 140

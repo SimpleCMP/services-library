@@ -24,5 +24,6 @@
         "origins": [
             "*.instagram.com"
         ]
-    }
+    },
+    "placeholderDescription": "This embed is hosted by Instagram (Meta) and will set tracking cookies when loaded."
 }

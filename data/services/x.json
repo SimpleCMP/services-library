@@ -47,5 +47,6 @@
             "*.twitter.com",
             "*.t.co"
         ]
-    }
+    },
+    "placeholderDescription": "This post is embedded from X (formerly Twitter) and will set tracking cookies when loaded."
 }
