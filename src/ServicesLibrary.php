@@ -16,6 +16,25 @@ namespace SimpleCMP\ServicesLibrary;
  * Consumers (TYPO3, WordPress, Contao plugins) typically iterate
  * `services()` and upsert each record into their own registry, or
  * resolve `dataPath()` to read the files directly.
+ *
+ * ## Multi-TLD vendor coverage
+ *
+ * Real-world vendors frequently run their services across several
+ * apex domains — Meta on `facebook.com` AND `facebook.net` AND
+ * `fbcdn.net`, Google on `googletagmanager.com` AND `doubleclick.net`,
+ * etc. The library models this by allowing each service to declare
+ * an optional `matches.aliasOrigins` list alongside the canonical
+ * `matches.origins`. Both contain origin-matcher entries (exact
+ * hosts or `*.suffix` wildcards), same semantics.
+ *
+ * `services()` **flattens** the two lists at load time — consumers
+ * see one combined `matches.origins` array and don't need to know
+ * about the split. The on-disk separation exists only for curation
+ * + audit purposes: `origins` is the canonical (typically
+ * OCD-derived or hand-curated headline domains), `aliasOrigins` is
+ * the hand-curated extension capturing the vendor's other TLDs.
+ * Audit tooling reads the raw files to flag coverage gaps without
+ * the flattening interfering.
  */
 final class ServicesLibrary
 {
@@ -32,6 +51,10 @@ final class ServicesLibrary
      * Iterate every bundled service as a decoded array. Files are
      * yielded in filename order for deterministic test output.
      *
+     * `matches.aliasOrigins` (when present) is merged into
+     * `matches.origins` before yielding. Duplicates are removed
+     * preserving first-seen order. Consumers see one flat list.
+     *
      * @return iterable<int, array<string, mixed>>
      */
     public static function services(): iterable
@@ -41,8 +64,51 @@ final class ServicesLibrary
         foreach ($files as $file) {
             $decoded = json_decode((string) file_get_contents($file), true, 32, JSON_THROW_ON_ERROR);
             if (is_array($decoded)) {
-                yield $decoded;
+                yield self::flattenAliasOrigins($decoded);
             }
         }
+    }
+
+    /**
+     * Merge `matches.aliasOrigins` into `matches.origins` and drop
+     * the `aliasOrigins` key from the yielded record. Idempotent on
+     * services without `aliasOrigins`.
+     *
+     * @param array<string, mixed> $service
+     * @return array<string, mixed>
+     */
+    private static function flattenAliasOrigins(array $service): array
+    {
+        $matches = $service['matches'] ?? null;
+        if (!is_array($matches)) {
+            return $service;
+        }
+        $aliases = $matches['aliasOrigins'] ?? null;
+        if (!is_array($aliases) || $aliases === []) {
+            // Still strip the empty alias array if present, so
+            // consumers never see it.
+            if (array_key_exists('aliasOrigins', $matches)) {
+                unset($matches['aliasOrigins']);
+                $service['matches'] = $matches;
+            }
+            return $service;
+        }
+        $origins = (array) ($matches['origins'] ?? []);
+        // First-seen-wins dedup. Origins come first so the canonical
+        // entries keep their position.
+        $seen = [];
+        $merged = [];
+        foreach ([...$origins, ...$aliases] as $entry) {
+            $key = is_string($entry) ? $entry : serialize($entry);
+            if (isset($seen[$key])) {
+                continue;
+            }
+            $seen[$key] = true;
+            $merged[] = $entry;
+        }
+        $matches['origins'] = $merged;
+        unset($matches['aliasOrigins']);
+        $service['matches'] = $matches;
+        return $service;
     }
 }

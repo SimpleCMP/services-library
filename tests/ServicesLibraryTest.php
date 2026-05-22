@@ -139,6 +139,84 @@ final class ServicesLibraryTest extends TestCase
         }
     }
 
+    #[Test]
+    public function aliasOriginsAreFlattenedIntoOriginsAtLoadTime(): void
+    {
+        // The on-disk separation is for curation/audit only — consumers
+        // see one flat origins list. This test reads any service in the
+        // library that has `aliasOrigins` and verifies the flattening
+        // contract.
+        $files = glob(ServicesLibrary::dataPath() . '/*.json') ?: [];
+        $sampled = 0;
+        foreach ($files as $file) {
+            $raw = json_decode((string) file_get_contents($file), true);
+            $aliases = $raw['matches']['aliasOrigins'] ?? null;
+            if (!is_array($aliases) || $aliases === []) {
+                continue;
+            }
+            $sampled++;
+            // Look the same service up via the iterator.
+            $loaded = null;
+            foreach (ServicesLibrary::services() as $candidate) {
+                if (($candidate['id'] ?? null) === ($raw['id'] ?? null)) {
+                    $loaded = $candidate;
+                    break;
+                }
+            }
+            self::assertNotNull($loaded, sprintf('Iterator did not return %s', $raw['id']));
+            self::assertArrayNotHasKey(
+                'aliasOrigins',
+                $loaded['matches'],
+                sprintf('aliasOrigins should be flattened away in %s', $raw['id']),
+            );
+            $origins = (array) ($loaded['matches']['origins'] ?? []);
+            foreach ($aliases as $alias) {
+                self::assertContains(
+                    $alias,
+                    $origins,
+                    sprintf('Alias %s should appear in flattened origins of %s', is_string($alias) ? $alias : '<non-string>', $raw['id']),
+                );
+            }
+            $rawOrigins = (array) ($raw['matches']['origins'] ?? []);
+            foreach ($rawOrigins as $canonical) {
+                self::assertContains(
+                    $canonical,
+                    $origins,
+                    sprintf('Canonical %s should survive flattening in %s', is_string($canonical) ? $canonical : '<non-string>', $raw['id']),
+                );
+            }
+        }
+        // The library has no aliasOrigins yet (Step 4 adds them).
+        // This test still locks the contract for when it does.
+        if ($sampled === 0) {
+            self::assertTrue(true, 'No aliasOrigins fields in the library yet — contract reserved for Step 4 backfill');
+        }
+    }
+
+    #[Test]
+    public function aliasOriginsFieldShapeIsValid(): void
+    {
+        // Schema check: when present, aliasOrigins must be a list of
+        // strings (same shape as origins). Catches malformed data before
+        // it confuses the loader.
+        $files = glob(ServicesLibrary::dataPath() . '/*.json') ?: [];
+        $checked = 0;
+        foreach ($files as $file) {
+            $raw = json_decode((string) file_get_contents($file), true);
+            $aliases = $raw['matches']['aliasOrigins'] ?? null;
+            if ($aliases === null) {
+                continue;
+            }
+            self::assertIsArray($aliases, sprintf('aliasOrigins in %s should be an array', basename($file)));
+            foreach ($aliases as $entry) {
+                self::assertIsString($entry, sprintf('aliasOrigins entry in %s should be a string', basename($file)));
+                self::assertNotEmpty($entry, sprintf('aliasOrigins entry in %s should be non-empty', basename($file)));
+            }
+            $checked++;
+        }
+        self::assertGreaterThanOrEqual(0, $checked); // sentinel so the test isn't marked risky pre-backfill
+    }
+
     /**
      * @param iterable<int, mixed> $iterable
      * @return \Generator<int, mixed>

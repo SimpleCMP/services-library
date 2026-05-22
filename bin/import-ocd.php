@@ -22,6 +22,20 @@ declare(strict_types=1);
  *
  * No external dependencies; uses fgetcsv + json_encode only.
  * See `docs/ocd-import-plan.md` for the full design.
+ *
+ * ## Reproducibility under hand-curated aliasOrigins
+ *
+ * Hand-curated services may declare `matches.aliasOrigins`
+ * extending the canonical `matches.origins` to cover other TLDs
+ * the same vendor runs on (Meta on `.facebook.net`, Google on
+ * `doubleclick.net`, etc.). This importer NEVER writes to
+ * `data/services/<id>.json` — it routes new entries to
+ * `data/services/_imported/<id>.json` and collisions to
+ * `_imported/<id>.union.json` sidecars. The reviewer applies
+ * sidecar deltas to the hand-curated file manually, choosing
+ * which alias additions to keep. So `aliasOrigins` is preserved
+ * by construction across re-imports. Don't loosen the sidecar
+ * routing without re-thinking this guarantee.
  */
 
 // --- input -----------------------------------------------------------

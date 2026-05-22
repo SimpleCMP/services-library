@@ -8,6 +8,7 @@
   "description": "Universal Event Tracking for Microsoft Advertising (Bing Ads). Tracks conversions and supports audience retargeting.",
   "matches": {
     "cookies": ["MUID", "_uetsid", "_uetvid", "/^_uet/"],
-    "origins": ["bat.bing.com", "*.bing.com", "*.bing.net"]
+    "origins": ["bat.bing.com", "*.bing.com", "*.bing.net"],
+    "aliasOrigins": ["*.clarity.ms"]
   }
 }

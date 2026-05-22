@@ -1,0 +1,65 @@
+# Audit corpus — known third-party tracker hosts grouped by vendor.
+#
+# Used by bin/audit-vendor-coverage.php to verify the library
+# matches every host below to some service. New hosts get added
+# here when a coverage gap is discovered in the wild (e.g. via
+# the TYPO3 ext detection log under universal blocking) — so the
+# regression that found the gap can't reappear silently.
+#
+# Format: one host per line, lowercase. # starts a comment.
+
+# --- Meta -----------------------------------------------------
+# Facebook proper
+www.facebook.com
+graph.facebook.com
+# Facebook Connect / Pixel SDK loader
+connect.facebook.net
+# Facebook CDN — embeds, image content
+scontent-ams4-1.fbcdn.net
+static.xx.fbcdn.net
+# Facebook sandbox / messenger CDN
+attachment.fbsbx.com
+# Instagram
+www.instagram.com
+i.instagram.com
+# Instagram embeds / CDN
+www.cdninstagram.com
+scontent-ams4-1.cdninstagram.com
+
+# --- Google ---------------------------------------------------
+# Tag Manager
+www.googletagmanager.com
+# Analytics
+www.google-analytics.com
+analytics.google.com
+# YouTube
+www.youtube.com
+i.ytimg.com
+r3---sn-h0jeenel.googlevideo.com
+# YouTube no-cookie variant
+www.youtube-nocookie.com
+
+# --- Microsoft ------------------------------------------------
+# Bing UET
+bat.bing.com
+www.bing.com
+# Clarity (Microsoft web analytics)
+c.clarity.ms
+www.clarity.ms
+
+# --- TikTok ---------------------------------------------------
+analytics.tiktok.com
+www.tiktok.com
+# TikTok CDN / region domains
+www.tiktokv.com
+v16-webapp.tiktokcdn.com
+mssdk-sg.byteoversea.com
+
+# --- Hotjar (matched via beamer in the library) ---------------
+static.hotjar.com
+script.hotjar.com
+
+# --- Stripe ---------------------------------------------------
+js.stripe.com
+m.stripe.com
+api.stripe.com

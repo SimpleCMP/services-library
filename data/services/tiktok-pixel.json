@@ -8,6 +8,7 @@
   "description": "Conversion tracking and audience retargeting for TikTok Ads. Identifies visitors across sessions and links activity to TikTok user accounts.",
   "matches": {
     "cookies": ["/^_ttp/", "/^_tt_/"],
-    "origins": ["analytics.tiktok.com", "*.tiktok.com"]
+    "origins": ["analytics.tiktok.com", "*.tiktok.com"],
+    "aliasOrigins": ["*.tiktokv.com", "*.tiktokcdn.com", "*.byteoversea.com"]
   }
 }

@@ -29,6 +29,10 @@
             "*.youtube.com",
             "*.googlevideo.com",
             "*.ytimg.com"
+        ],
+        "aliasOrigins": [
+            "youtube-nocookie.com",
+            "*.youtube-nocookie.com"
         ]
     },
     "placeholderDescription": "This YouTube embed is hosted by Google and will set tracking cookies when loaded.",
