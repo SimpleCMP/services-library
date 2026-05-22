@@ -96,7 +96,10 @@
             "ssostartpage",
             "SUCSP",
             "SUPRM",
-            "t",
+            {
+                "name": "t",
+                "requireOrigin": "salesforce.com"
+            },
             "useStandbyUrl",
             "waveUserPrefFinderLeftNav",
             "waveUserPrefFinderListView",

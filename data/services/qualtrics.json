@@ -24,13 +24,19 @@
             "/^QSI_TestSessions_/",
             "/^QSI_SI_/",
             "/^QSI_S_/",
-            "QST",
+            {
+                "name": "QST",
+                "requireOrigin": "qualtrics.com"
+            },
             "/^QSIPopUnder_PopUnderTarget_SI_/",
             "QSI_CT",
             "QSI_DATA",
             "/^QSI_ReplaySession_Throttled_/",
             "/^QSI_ReplaySession_SampledOut_/",
             "Site History"
+        ],
+        "origins": [
+            "*.qualtrics.com"
         ]
     }
 }

@@ -15,8 +15,14 @@
             "APID",
             "APIDTS",
             "IDSYNC",
-            "A1",
-            "A1S",
+            {
+                "name": "A1",
+                "requireOrigin": "yahoo.com"
+            },
+            {
+                "name": "A1S",
+                "requireOrigin": "yahoo.com"
+            },
             "adaptv_unique_user_cookie",
             {
                 "name": "cmp",

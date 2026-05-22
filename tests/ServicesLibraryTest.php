@@ -214,7 +214,82 @@ final class ServicesLibraryTest extends TestCase
             }
             $checked++;
         }
-        self::assertGreaterThanOrEqual(0, $checked); // sentinel so the test isn't marked risky pre-backfill
+        // At least one service must carry aliasOrigins — without this
+        // assertion the test would silently no-op if the field were
+        // ever stripped en masse. The Meta + YouTube + TikTok + MS
+        // backfill (commit 02b8df5) ensures we have ≥5 today.
+        self::assertGreaterThan(
+            0,
+            $checked,
+            'Expected at least one service to carry matches.aliasOrigins. '
+            . 'If a recent change stripped every entry, this is a regression — '
+            . 'see CHANGELOG entry for the Schema-A multi-TLD work.',
+        );
+    }
+
+    #[Test]
+    public function shortLiteralCookiesAreHostQualified(): void
+    {
+        // ADR-0010 compliance gate. Generic short cookie names like
+        // `_ga`, `did`, `t`, `xbc` etc. WILL false-match on unrelated
+        // sites that happen to use the same name. The host-qualified
+        // matcher form `{name, requireOrigin}` guards against this by
+        // requiring the recorder to have observed the vendor's host
+        // in the session.
+        //
+        // Rule: any literal cookie name (string, not regex, not
+        // object) of length ≤ SHORT_COOKIE_THRESHOLD MUST be in the
+        // object form OR pass a documented exception.
+        //
+        // Exception list: first-party-context cookies whose host
+        // varies per integrator deployment (e.g. `_ga` set on the
+        // customer's own domain by GA's JS). Host qualification
+        // doesn't structurally apply — the cookie is observed on
+        // the same origin as the host page. These are accepted as
+        // a known false-positive risk on unrelated sites using the
+        // same cookie name. The risk is low because the names
+        // (e.g. `_ga`, `gcl`) are distinctive enough that real-world
+        // collisions are rare.
+        $exceptions = [
+            'adobe-analytics' => ['fid'],
+            'adobe-audience-manager' => ['dst', '_dp', 'dpm'],
+            'google-analytics' => ['_ga'],
+            'google' => ['gcl', 'gac'],
+            'magento' => ['stf'],
+            'snowplow' => ['sp'],
+        ];
+        $threshold = 3;
+        $violations = [];
+        foreach (ServicesLibrary::services() as $service) {
+            $id = (string) $service['id'];
+            $cookies = $service['matches']['cookies'] ?? [];
+            if (!is_array($cookies)) {
+                continue;
+            }
+            foreach ($cookies as $c) {
+                if (!is_string($c)) {
+                    continue; // object-form is already host-qualified
+                }
+                if (str_starts_with($c, '/') && str_ends_with($c, '/')) {
+                    continue; // slash-bounded regex
+                }
+                if (strlen($c) > $threshold) {
+                    continue;
+                }
+                if (in_array($c, $exceptions[$id] ?? [], true)) {
+                    continue;
+                }
+                $violations[] = sprintf('%s: %s', $id, $c);
+            }
+        }
+        self::assertSame(
+            [],
+            $violations,
+            "Short literal cookies (≤{$threshold} chars) must use the "
+            . '{name, requireOrigin} object form (ADR-0010) OR be added '
+            . 'to the documented first-party-context exception list in '
+            . 'this test. Violations:' . "\n  " . implode("\n  ", $violations),
+        );
     }
 
     /**

@@ -32,7 +32,10 @@
             "gig3pctest",
             "glnk",
             "gmid",
-            "gst",
+            {
+                "name": "gst",
+                "requireOrigin": "gigya.com"
+            },
             "/^GSLM_/",
             "hasGmid",
             "/^SAML_/",

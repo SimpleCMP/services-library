@@ -11,7 +11,10 @@
     "matches": {
         "cookies": [
             "pa_user",
-            "xbc",
+            {
+                "name": "xbc",
+                "requireOrigin": "tinypass.com"
+            },
             "__tbc",
             "__pls",
             "__tac",

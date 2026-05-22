@@ -8,7 +8,10 @@
     "privacyPolicyUrl": "https://www.openx.com/privacy-center/privacy-policy/",
     "matches": {
         "cookies": [
-            "i",
+            {
+                "name": "i",
+                "requireOrigin": "openx.net"
+            },
             "univ_id",
             {
                 "name": "pd",

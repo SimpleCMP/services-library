@@ -26,7 +26,10 @@
                 "requireOrigin": "commander1.com"
             },
             "tc_sample_",
-            "TMS",
+            {
+                "name": "TMS",
+                "requireOrigin": "commander1.com"
+            },
             "TC_CHECK_COOKIES_SUPPORT",
             "TCSESSION",
             "TCREDIRECT",

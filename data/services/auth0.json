@@ -14,9 +14,15 @@
             "auth0-mf_compat",
             "a0_users:sess",
             "a0_users:sess.sig",
-            "did",
+            {
+                "name": "did",
+                "requireOrigin": "auth0.com"
+            },
             "did_compat",
             "/^__txn_/"
+        ],
+        "origins": [
+            "*.auth0.com"
         ]
     }
 }
