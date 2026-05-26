@@ -369,9 +369,21 @@ foreach ($byId as $id => $rows) {
             $isLiteral = !(strlen($c) >= 2 && $c[0] === '/' && $c[-1] === '/');
             if ($isLiteral) {
                 foreach ($existingRegexes as $rx) {
-                    if (@preg_match($rx, $c) === 1) {
+                    // No `@` — surface malformed regexes from existing
+                    // service files explicitly. `preg_match` returns
+                    // `false` on a syntax error in the pattern (PHP
+                    // emits a warning too). Treat malformed as
+                    // "doesn't cover" and log so the curator can fix
+                    // the source file. Silently swallowing was
+                    // hiding a data-quality issue per the 2026-05-22
+                    // audit.
+                    $result = preg_match($rx, $c);
+                    if ($result === 1) {
                         $coveredByRegex = true;
                         break;
+                    }
+                    if ($result === false) {
+                        fwrite(STDERR, "[import-ocd] WARN: malformed regex `{$rx}` in existing service file — skipping for dedup\n");
                     }
                 }
             }

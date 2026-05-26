@@ -56,4 +56,23 @@ final class OcdImportSafetyTest extends TestCase
             );
         }
     }
+
+    #[Test]
+    public function importerDoesNotSuppressRegexErrors(): void
+    {
+        // Audit item from 2026-05-22: `@preg_match` silently swallowed
+        // malformed regexes from existing service files, hiding a
+        // data-quality issue. The fix: drop the `@` so PHP emits a
+        // warning and the script logs to STDERR. This test source-
+        // asserts the suppression doesn't sneak back in.
+        $path = dirname(__DIR__) . '/bin/import-ocd.php';
+        $source = (string) file_get_contents($path);
+
+        self::assertStringNotContainsString(
+            '@preg_match',
+            $source,
+            'OCD importer must not use `@preg_match` — error suppression hides malformed-regex data-quality issues. '
+            . 'Use plain `preg_match` and check for `false` return + log to STDERR.'
+        );
+    }
 }
