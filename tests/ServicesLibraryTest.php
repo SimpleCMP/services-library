@@ -171,7 +171,7 @@ final class ServicesLibraryTest extends TestCase
                 sprintf('vendorAddress in %s should not be empty', $service['id']),
             );
         }
-        self::assertGreaterThanOrEqual(0, $checked);
+        self::assertGreaterThan(0, $checked);
     }
 
     #[Test]
@@ -189,7 +189,7 @@ final class ServicesLibraryTest extends TestCase
                 sprintf('vendorOptOutUrl in %s should use HTTPS', $service['id']),
             );
         }
-        self::assertGreaterThanOrEqual(0, $checked);
+        self::assertGreaterThan(0, $checked);
     }
 
     #[Test]
@@ -211,7 +211,7 @@ final class ServicesLibraryTest extends TestCase
                 sprintf('vendorPartner in %s should not be empty', $service['id']),
             );
         }
-        self::assertGreaterThanOrEqual(0, $checked);
+        self::assertGreaterThan(0, $checked);
     }
 
     #[Test]
@@ -233,7 +233,7 @@ final class ServicesLibraryTest extends TestCase
                 sprintf('vendorDescription in %s should not be empty', $service['id']),
             );
         }
-        self::assertGreaterThanOrEqual(0, $checked);
+        self::assertGreaterThan(0, $checked);
     }
 
     #[Test]

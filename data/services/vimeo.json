@@ -1,8 +1,12 @@
 {
     "id": "vimeo",
     "name": "Vimeo",
-    "vendor": "Vimeo.com, Inc.",
+    "vendor": "Vimeo",
     "vendorCountry": "US",
+    "vendorAddress": "Vimeo.com, Inc., 555 West 18th Street, New York, NY 10011, USA",
+    "vendorOptOutUrl": "https://vimeo.com/cookie_policy",
+    "vendorPartner": "No EU establishment; Vimeo.com, Inc. acts as controller directly. DPF-listed: transfers under the EU-US Data Privacy Framework adequacy decision (Art. 45 GDPR).",
+    "vendorDescription": "Vimeo.com, Inc. is a US-headquartered video hosting platform. It directly controls personal data of European users; transfers are covered by the EU-US Data Privacy Framework adequacy decision.",
     "purposes": [
         "marketing",
         "personalization"

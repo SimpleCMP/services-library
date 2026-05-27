@@ -2,6 +2,11 @@
     "id": "linkedin",
     "name": "LinkedIn",
     "vendor": "LinkedIn",
+    "vendorCountry": "IE",
+    "vendorAddress": "LinkedIn Ireland Unlimited Company, Wilton Plaza, Wilton Place, Dublin 2, Ireland",
+    "vendorOptOutUrl": "https://www.linkedin.com/psettings/advertising",
+    "vendorPartner": "LinkedIn Corporation (USA) as parent; ultimate parent Microsoft Corporation (USA). Transfers to the USA under the EU-US Data Privacy Framework adequacy decision (Art. 45 GDPR).",
+    "vendorDescription": "LinkedIn Ireland Unlimited Company is the EU establishment of LinkedIn Corporation (a Microsoft subsidiary). It is the EU controller for LinkedIn services and processes personal data of European users, forwarding to LinkedIn Corporation in the USA where required.",
     "purposes": [
         "analytics",
         "functional",
