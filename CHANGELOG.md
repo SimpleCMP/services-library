@@ -3,10 +3,41 @@
 All notable changes to `simplecmp/services-library` are recorded here.
 Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
-## Unreleased
+## 0.3.0 — 2026-05-27
+
+Layer-2 Provider-Informationen disclosure (REQ-19 in
+[`SimpleCMP/simplecmp`](https://github.com/SimpleCMP/simplecmp)) —
+each service can now carry full DSGVO Art. 13 recipient data inline.
+Plus the placeholder polish from previous Unreleased rolls in here.
 
 ### Added
 
+- **Four new optional `vendor*` fields** on each service entry:
+  - `vendorAddress` — full postal address of the legal entity
+    (e.g. `"Google Ireland Limited, Gordon House, Barrow Street,
+    Dublin 4, Ireland"`)
+  - `vendorOptOutUrl` — service-specific opt-out URL (HTTPS)
+  - `vendorPartner` — free-text joint-controllers / partners +
+    transfer-basis disclosure (DPF / SCCs / Art. 49)
+  - `vendorDescription` — short description of the legal entity
+    itself, distinct from the existing service `description`
+  Tests in `ServicesLibraryTest.php` validate the shape when present
+  (non-empty strings, HTTPS URL for `vendorOptOutUrl`).
+- **32 services curated with full provider data** across 10 vendors:
+  Google Ireland Limited (12), Microsoft Ireland Operations Limited
+  (4), Adobe Systems Software Ireland Limited (5), Meta Platforms
+  Ireland Limited (2 — facebook, instagram), TikTok Technology
+  Limited (2), Twitter International Unlimited Company (1 — x;
+  SCC-only + explicit "no equivalent protection" disclosure since X
+  Corp. is not DPF-listed), Vimeo.com, Inc. (1; no EU establishment,
+  DPF-listed), LinkedIn Ireland Unlimited Company (2), Pinterest
+  Europe Limited (2), Stripe Payments Europe Limited (1).
+- **`.claude/skills/curate-service-provider/SKILL.md`** — repo-scoped
+  Claude Code skill documenting the curation procedure (when to
+  invoke, what to skip, per-vendor research checklist, idempotent
+  PHP one-liner pattern, four canonical example shapes covering
+  DPF-listed multi-service, SCC-only, no-EU-establishment, and
+  no-equivalent-protection cases).
 - **Optional `placeholderTitle` / `placeholderDescription` fields**
   for the click-to-enable placeholder UI that SimpleCMP auto-inserts
   next to blocked embeds (`<simplecmp-contextual-notice>`). The
@@ -19,6 +50,10 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   most-embedded services: YouTube, Vimeo, Google Maps, Instagram, X
   (Twitter), Spotify, SoundCloud, Twitch, Facebook, hCaptcha,
   Cloudflare Turnstile, Typeform, JotForm, Disqus, Mapbox.
+- **`bin/migrate-apex-origins.php`** — one-shot migration script
+  for the apex-literal → wildcard rewrite below. Conservative:
+  only touches services whose origin list consists ENTIRELY of
+  2-label apex literals.
 
 ### Fixed
 
@@ -37,13 +72,9 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   OCD's apex `youtube.com` literal didn't match `www.youtube.com`
   iframe embeds. Added `*.youtube.com`, `*.googlevideo.com`,
   `*.ytimg.com` so real YouTube integrations classify.
-
-### Added
-
-- **`bin/migrate-apex-origins.php`** — one-shot migration script
-  for the apex-literal → wildcard rewrite above. Conservative:
-  only touches services whose origin list consists ENTIRELY of
-  2-label apex literals.
+- **OCD-import safety**: drop the `@` from `preg_match` so malformed
+  regex sidecars surface as PHP warnings instead of silently
+  failing. Functional fallback unchanged.
 
 ## 0.2.1 — 2026-05-17
 
