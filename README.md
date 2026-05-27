@@ -60,7 +60,11 @@ Each JSON file conforms to the upstream Service-DB protocol:
 | `vendorCountry` | ISO 3166-1 α-2 | recommended | Where the vendor is established |
 | `purposes` | array of enum | yes | `analytics`, `marketing`, `advertising`, `functional`, `personalization`, `security` |
 | `privacyPolicyUrl` | HTTPS URL | recommended | Vendor's privacy policy |
-| `description` | string | recommended | Short factual EN description |
+| `description` | string | recommended | Short factual EN description of **the service** |
+| `vendorAddress` | string | optional | Full postal address of the legal entity (e.g. `"Gordon House, Barrow Street, Dublin 4, Ireland"`). Surfaced in the SimpleCMP L2 Provider-Informationen modal next to the blocked embed. |
+| `vendorOptOutUrl` | HTTPS URL | optional | Service-specific opt-out endpoint (e.g. Google Ads Settings, Adobe opt-out). Distinct from the privacy policy URL. |
+| `vendorPartner` | string | optional | Free-text description of joint controllers, parent companies, or data-sharing partners (Fashion ID / Art. 26 DSGVO). |
+| `vendorDescription` | string | optional | Short description of **the legal entity / company itself** (distinct from the service `description`). E.g. `"OpenStreetMap ist eine kostenlose und öffentliche geografische Datenbank."` |
 | `matches.cookies` | array | one of cookies/origins | Each entry is either a string (exact name or `/regex/`) or a `{ name, requireOrigin }` object (host-qualified — only fires when the runtime has also observed the qualifying origin). |
 | `matches.origins` | array of strings | one of cookies/origins | Exact hosts (`maps.googleapis.com`) or wildcard form `*.suffix` (matches both the apex `suffix` and every subdomain `*.suffix`). |
 | `retention` | object | optional | `{display, durationDays}` |
@@ -69,6 +73,26 @@ Each JSON file conforms to the upstream Service-DB protocol:
 | `placeholderDescription` | string | optional | One-sentence description for the click-to-enable placeholder UI — what the visitor would load by enabling. Falls back to the engine's default `contextualConsent.description` template when unset. |
 
 Tests validate the schema on every PR.
+
+### Provider-disclosure fields (DSGVO Art. 13 L2 modal)
+
+The four `vendor*` fields (`vendorCountry`, `vendorAddress`,
+`vendorOptOutUrl`, `vendorPartner`, `vendorDescription`) plus the
+existing `vendor` and `privacyPolicyUrl` fields together populate the
+**Provider-Informationen modal** that SimpleCMP renders one click
+beneath the blocked-embed placeholder. This is the L2 disclosure
+surface in the layered consent model (banner first-view → service
+expansion / placeholder Mehr-Infos modal → linked Datenschutzerklärung).
+
+All fields are optional. The renderer reads each independently and
+hides or marks missing fields as "not specified." Long-tail entries
+with only `vendor` + `vendorCountry` show a minimal but legally-
+defensible disclosure surface.
+
+Curation guidance: prioritise filling these fields on the top
+multi-service vendors (Google, Microsoft, Adobe) and single-service
+big-N (Meta, Stripe, Vimeo, X, TikTok, LinkedIn). For obscure 1:1
+vendors, the existing `vendor` string is sufficient as a baseline.
 
 ### Host-qualified cookie matchers
 

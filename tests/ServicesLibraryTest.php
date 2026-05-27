@@ -139,6 +139,103 @@ final class ServicesLibraryTest extends TestCase
         }
     }
 
+    // Provider-disclosure fields (DSGVO Art. 13 L2 modal) — REQ-19.
+    // All four are optional; tests only fire when the field is present.
+    // Curators add them on the top ~25 high-value services; long-tail
+    // entries stay with `vendor` + `vendorCountry` and the renderer
+    // degrades gracefully.
+    //
+    // Sentinel: each test counts how many entries have the field. The
+    // trailing assertGreaterThanOrEqual(0) keeps PHPUnit from flagging
+    // tests as Risky when the library has zero entries with the field
+    // yet. Once curation lands ≥1 entry per field, tighten to
+    // assertGreaterThan(0) to lock the coverage (mirrors the existing
+    // aliasOriginsFieldShapeIsValid pattern).
+
+    #[Test]
+    public function vendorAddressIsNonEmptyStringWhenPresent(): void
+    {
+        $checked = 0;
+        foreach (ServicesLibrary::services() as $service) {
+            if (!array_key_exists('vendorAddress', $service)) {
+                continue;
+            }
+            $checked++;
+            self::assertIsString(
+                $service['vendorAddress'],
+                sprintf('vendorAddress in %s should be a string', $service['id']),
+            );
+            self::assertNotSame(
+                '',
+                trim((string) $service['vendorAddress']),
+                sprintf('vendorAddress in %s should not be empty', $service['id']),
+            );
+        }
+        self::assertGreaterThanOrEqual(0, $checked);
+    }
+
+    #[Test]
+    public function vendorOptOutUrlIsHttpsWhenPresent(): void
+    {
+        $checked = 0;
+        foreach (ServicesLibrary::services() as $service) {
+            if (!isset($service['vendorOptOutUrl'])) {
+                continue;
+            }
+            $checked++;
+            self::assertStringStartsWith(
+                'https://',
+                (string) $service['vendorOptOutUrl'],
+                sprintf('vendorOptOutUrl in %s should use HTTPS', $service['id']),
+            );
+        }
+        self::assertGreaterThanOrEqual(0, $checked);
+    }
+
+    #[Test]
+    public function vendorPartnerIsNonEmptyStringWhenPresent(): void
+    {
+        $checked = 0;
+        foreach (ServicesLibrary::services() as $service) {
+            if (!array_key_exists('vendorPartner', $service)) {
+                continue;
+            }
+            $checked++;
+            self::assertIsString(
+                $service['vendorPartner'],
+                sprintf('vendorPartner in %s should be a string', $service['id']),
+            );
+            self::assertNotSame(
+                '',
+                trim((string) $service['vendorPartner']),
+                sprintf('vendorPartner in %s should not be empty', $service['id']),
+            );
+        }
+        self::assertGreaterThanOrEqual(0, $checked);
+    }
+
+    #[Test]
+    public function vendorDescriptionIsNonEmptyStringWhenPresent(): void
+    {
+        $checked = 0;
+        foreach (ServicesLibrary::services() as $service) {
+            if (!array_key_exists('vendorDescription', $service)) {
+                continue;
+            }
+            $checked++;
+            self::assertIsString(
+                $service['vendorDescription'],
+                sprintf('vendorDescription in %s should be a string', $service['id']),
+            );
+            self::assertNotSame(
+                '',
+                trim((string) $service['vendorDescription']),
+                sprintf('vendorDescription in %s should not be empty', $service['id']),
+            );
+        }
+        self::assertGreaterThanOrEqual(0, $checked);
+    }
+
     #[Test]
     public function aliasOriginsAreFlattenedIntoOriginsAtLoadTime(): void
     {
