@@ -11,7 +11,7 @@ import the records into their own registry.
 
 ## What's in it
 
-**350+ services** covering analytics, ad networks, embeds, forms /
+**368 services** covering analytics, ad networks, embeds, forms /
 captcha, chat widgets, payments, maps, monitoring, fonts, tag
 management, and a long tail of region-specific ad-tech. Each lives in
 `data/services/<id>.json` — `ls data/services` is the source of truth
@@ -27,6 +27,19 @@ Where the data comes from:
   [Open Cookie Database](https://github.com/jkwakman/Open-Cookie-Database)
   via `bin/import-ocd.php`, then re-shaped to the protocol schema
   (slash-bounded regex matchers where OCD used wildcards, etc.).
+- **Provider-disclosure curation (v0.3.0)** — 32 services across 10
+  legal entities (Google Ireland Limited, Microsoft Ireland Operations
+  Limited, Adobe Systems Software Ireland Limited, Meta Platforms
+  Ireland Limited, TikTok Technology Limited, Twitter International
+  Unlimited Company, Vimeo Inc., LinkedIn Ireland Unlimited Company,
+  Pinterest Europe Limited, Stripe Payments Europe Limited) carry the
+  full Art. 13 disclosure fields (postal address, opt-out URL,
+  partner / joint-controllers, provider description, transfer basis)
+  used by SimpleCMP's L2 Provider-Informationen modal. The remaining
+  ~340 entries ship with just `vendor` + `vendorCountry` and degrade
+  gracefully in the modal. Curators can promote any long-tail entry
+  via the [`curate-service-provider`](./.claude/skills/curate-service-provider/SKILL.md)
+  Claude Code skill.
 
 ## Usage (PHP consumers)
 
