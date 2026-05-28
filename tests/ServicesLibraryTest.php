@@ -30,6 +30,16 @@ final class ServicesLibraryTest extends TestCase
     }
 
     #[Test]
+    public function dataHashIsAStableSha256(): void
+    {
+        $hash = ServicesLibrary::dataHash();
+        self::assertSame(64, strlen($hash));
+        self::assertMatchesRegularExpression('/^[0-9a-f]{64}$/', $hash);
+        // Stability: two consecutive reads of the same on-disk state must agree.
+        self::assertSame($hash, ServicesLibrary::dataHash());
+    }
+
+    #[Test]
     public function libraryShipsAtLeastOneService(): void
     {
         $count = iterator_count(self::iterableToGenerator(ServicesLibrary::services()));

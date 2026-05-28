@@ -48,6 +48,47 @@ final class ServicesLibrary
     }
 
     /**
+     * Content hash of the bundled service data — a sha256 over every
+     * `data/services/*.json` file, concatenated in filename order
+     * with `\0` separators. Stable across reads, identical bundles
+     * produce identical hashes regardless of filesystem timestamps.
+     *
+     * Designed as the canonical "data version" signal for consumers
+     * that want to detect drift between a bundled snapshot and a
+     * live upstream serving the same library. README edits, CI
+     * config changes, importer scripts, audit fixtures — none of
+     * them touch this hash. Only the service files themselves do.
+     *
+     * Reference-server implementations should expose this on their
+     * `/v1/health` endpoint (as `dataHash`) so consumers can do a
+     * single-string equality check.
+     *
+     * `$customDataDir` is provided for build tools (the canonical
+     * reference-server's `rebuild-from-library.php` script) that
+     * compute the hash against a fresh repo clone, not the
+     * composer-installed bundle. Pass `null` to hash the bundled
+     * data — the common case.
+     */
+    public static function dataHash(?string $customDataDir = null): string
+    {
+        $dir = $customDataDir ?? self::dataPath();
+        $files = glob(rtrim($dir, '/') . '/*.json') ?: [];
+        sort($files);
+        $hash = hash_init('sha256');
+        foreach ($files as $file) {
+            // Include the basename so a rename — even with identical
+            // content — produces a different hash. Otherwise renaming
+            // `foo.json` to `bar.json` would be invisible to drift
+            // detection.
+            hash_update($hash, basename($file));
+            hash_update($hash, "\0");
+            hash_update($hash, (string) file_get_contents($file));
+            hash_update($hash, "\0");
+        }
+        return hash_final($hash);
+    }
+
+    /**
      * Iterate every bundled service as a decoded array. Files are
      * yielded in filename order for deterministic test output.
      *
