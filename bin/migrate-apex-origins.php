@@ -67,7 +67,12 @@ foreach (glob($servicesDir . '/*.json') ?: [] as $file) {
         $file,
         json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . "\n",
     );
-    printf("M  %-40s %s → %s\n", $data['id'] ?? basename($file), implode(',', $origins), implode(',', $rewritten));
+    $id = $data['id'] ?? null;
+    if (!is_string($id) || $id === '') {
+        fwrite(STDERR, sprintf("WARN: missing or non-string `id` in %s — using filename as label\n", basename($file)));
+        $id = basename($file, '.json');
+    }
+    printf("M  %-40s %s → %s\n", $id, implode(',', $origins), implode(',', $rewritten));
     $touched++;
 }
 
