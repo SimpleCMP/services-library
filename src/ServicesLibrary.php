@@ -136,15 +136,21 @@ final class ServicesLibrary
         }
         $origins = (array) ($matches['origins'] ?? []);
         // First-seen-wins dedup. Origins come first so the canonical
-        // entries keep their position.
+        // entries keep their position. Per the Service-DB protocol,
+        // `origins` and `aliasOrigins` are arrays of strings — the
+        // `aliasOriginsFieldShapeIsValid` schema test enforces that
+        // upstream — so non-string entries are skipped defensively
+        // rather than coerced via `serialize()`.
         $seen = [];
         $merged = [];
         foreach ([...$origins, ...$aliases] as $entry) {
-            $key = is_string($entry) ? $entry : serialize($entry);
-            if (isset($seen[$key])) {
+            if (!is_string($entry)) {
                 continue;
             }
-            $seen[$key] = true;
+            if (isset($seen[$entry])) {
+                continue;
+            }
+            $seen[$entry] = true;
             $merged[] = $entry;
         }
         $matches['origins'] = $merged;
