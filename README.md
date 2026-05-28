@@ -59,6 +59,13 @@ foreach (ServicesLibrary::services() as $service) {
 // Or resolve the data directory directly
 $dir = ServicesLibrary::dataPath();
 foreach (glob($dir . '/*.json') as $file) { … }
+
+// Content-only sha256 over the service JSON files (stable across
+// README/CI/docs commits) — use this for drift detection between
+// a bundled snapshot and a remote reference server. Optional
+// `$customDataDir` argument for tools that consume a fresh clone
+// rather than the composer-installed copy.
+$hash = ServicesLibrary::dataHash();
 ```
 
 ## Schema
