@@ -3,6 +3,17 @@
 All notable changes to `simplecmp/services-library` are recorded here.
 Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## 0.3.1 — 2026-05-28
+
+### Added
+
+- **`ServicesLibrary::dataHash(string $dir): string`** — sha256 over
+  the sorted, normalised service JSON files. Stable across
+  README/CI/docs commits so downstream consumers (e.g. the
+  TYPO3 plugin's *Bibliotheks-Upstream* freshness panel) can detect
+  *content* drift between a bundled snapshot and an upstream reference
+  server without false positives from non-data commits.
+
 ## 0.3.0 — 2026-05-27
 
 Layer-2 Provider-Informationen disclosure (REQ-19 in
