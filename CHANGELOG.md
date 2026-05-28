@@ -3,6 +3,23 @@
 All notable changes to `simplecmp/services-library` are recorded here.
 Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## 0.3.2 — 2026-05-28
+
+### Changed
+
+- `ServicesLibraryTest` now locks the `dataHash()` invariants
+  consumers rely on: order-invariance (sort() normalises traversal
+  order), content-sensitivity (a single-byte edit changes the
+  hash), and filename-sensitivity (a rename changes the hash even
+  if content is identical, because the basename is folded in).
+- `bin/migrate-apex-origins.php` now warns to STDERR when a
+  service file is missing the `id` field instead of silently
+  falling back to the filename.
+- README now documents `ServicesLibrary::dataHash()` in the
+  PHP-consumers section.
+
+No data changes — `dataHash()` output is identical to v0.3.1.
+
 ## 0.3.1 — 2026-05-28
 
 ### Added
