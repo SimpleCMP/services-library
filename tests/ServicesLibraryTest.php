@@ -40,6 +40,66 @@ final class ServicesLibraryTest extends TestCase
     }
 
     #[Test]
+    public function dataHashIsInvariantToFileInsertionOrder(): void
+    {
+        $a = $this->makeTempDir('svc-lib-order-a');
+        $b = $this->makeTempDir('svc-lib-order-b');
+        try {
+            file_put_contents($a . '/alpha.json', '{"id":"alpha"}');
+            file_put_contents($a . '/beta.json', '{"id":"beta"}');
+            file_put_contents($a . '/gamma.json', '{"id":"gamma"}');
+
+            file_put_contents($b . '/gamma.json', '{"id":"gamma"}');
+            file_put_contents($b . '/alpha.json', '{"id":"alpha"}');
+            file_put_contents($b . '/beta.json', '{"id":"beta"}');
+
+            self::assertSame(
+                ServicesLibrary::dataHash($a),
+                ServicesLibrary::dataHash($b),
+                'dataHash must be invariant to file insertion order — sort() inside the implementation normalises traversal.',
+            );
+        } finally {
+            $this->removeTempDir($a);
+            $this->removeTempDir($b);
+        }
+    }
+
+    #[Test]
+    public function dataHashChangesOnSingleByteContentEdit(): void
+    {
+        $dir = $this->makeTempDir('svc-lib-content');
+        try {
+            file_put_contents($dir . '/x.json', '{"id":"x","name":"X"}');
+            $before = ServicesLibrary::dataHash($dir);
+            file_put_contents($dir . '/x.json', '{"id":"x","name":"Y"}');
+            $after = ServicesLibrary::dataHash($dir);
+            self::assertNotSame($before, $after, 'dataHash must change when a single byte of file content changes.');
+        } finally {
+            $this->removeTempDir($dir);
+        }
+    }
+
+    #[Test]
+    public function dataHashChangesOnFilenameRenameEvenWhenContentIdentical(): void
+    {
+        $dir = $this->makeTempDir('svc-lib-rename');
+        try {
+            $payload = '{"id":"placeholder"}';
+            file_put_contents($dir . '/foo.json', $payload);
+            $before = ServicesLibrary::dataHash($dir);
+            rename($dir . '/foo.json', $dir . '/bar.json');
+            $after = ServicesLibrary::dataHash($dir);
+            self::assertNotSame(
+                $before,
+                $after,
+                'dataHash must change on rename — basename is folded in so a moved service is visible to drift detection.',
+            );
+        } finally {
+            $this->removeTempDir($dir);
+        }
+    }
+
+    #[Test]
     public function libraryShipsAtLeastOneService(): void
     {
         $count = iterator_count(self::iterableToGenerator(ServicesLibrary::services()));
@@ -408,5 +468,20 @@ final class ServicesLibraryTest extends TestCase
         foreach ($iterable as $k => $v) {
             yield $k => $v;
         }
+    }
+
+    private function makeTempDir(string $prefix): string
+    {
+        $dir = sys_get_temp_dir() . '/' . $prefix . '-' . uniqid('', true);
+        mkdir($dir);
+        return $dir;
+    }
+
+    private function removeTempDir(string $dir): void
+    {
+        foreach (glob($dir . '/*') ?: [] as $f) {
+            unlink($f);
+        }
+        rmdir($dir);
     }
 }
