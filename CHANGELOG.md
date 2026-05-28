@@ -3,6 +3,12 @@
 All notable changes to `simplecmp/services-library` are recorded here.
 Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## 0.3.3 — 2026-05-28
+
+### Added
+
+- German `i18n.description.de` overlay for `mixpanel`.
+
 ## 0.3.2 — 2026-05-28
 
 ### Changed
