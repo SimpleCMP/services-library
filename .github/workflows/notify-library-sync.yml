@@ -1,0 +1,44 @@
+name: Notify t3-simplecmp on library change
+
+# Fires after the main CI workflow completes on `main`. If CI passed,
+# dispatches a `library-sync` event to t3-simplecmp carrying the
+# services-library SHA. The ext-side workflow then clones at that
+# SHA, mirrors the loader + JSON data into the ext, runs the gates,
+# and either pushes to main directly (all green) or opens a failure
+# PR labelled `needs-triage`.
+#
+# Setup once:
+# 1. Create a fine-grained PAT at github.com/settings/tokens?type=beta with:
+#    - Resource owner: SimpleCMP
+#    - Repository access: SimpleCMP/t3-simplecmp (only — not org-wide)
+#    - Permissions: Contents (read), Metadata (read), Actions (write)
+# 2. Add it as a repository secret named `LIBRARY_SYNC_DISPATCH_TOKEN`
+#    in SimpleCMP/services-library (Settings → Secrets and variables
+#    → Actions). NOT the same PAT as BUNDLE_SYNC_DISPATCH_TOKEN — that
+#    one lives in the upstream simplecmp repo, this one lives here.
+#
+# Future plugin consumers (WP, Contao) will need their own PAT secret
+# in this repo (e.g. WP_LIBRARY_SYNC_DISPATCH_TOKEN). When that
+# happens, refactor the dispatch step into a matrix or extract a
+# composite Action — see bundle_sync_automation Phase 3 plan.
+
+on:
+  workflow_run:
+    workflows: ['CI']
+    types: [completed]
+    branches: [main]
+
+jobs:
+  dispatch:
+    if: github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send repository_dispatch to t3-simplecmp
+        env:
+          GH_TOKEN: ${{ secrets.LIBRARY_SYNC_DISPATCH_TOKEN }}
+        run: |
+          gh api repos/SimpleCMP/t3-simplecmp/dispatches \
+            --method POST \
+            -f event_type=library-sync \
+            -f client_payload[upstream_sha]=${{ github.event.workflow_run.head_sha }} \
+            -f client_payload[upstream_url]=${{ github.event.workflow_run.html_url }}
