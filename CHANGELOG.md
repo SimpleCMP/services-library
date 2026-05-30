@@ -3,6 +3,31 @@
 All notable changes to `simplecmp/services-library` are recorded here.
 Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## Unreleased
+
+### Fixed
+
+- Corrupt origin/cookie matchers in three service entries (audit
+  2026-05-30):
+  - `id5` — the origin `id5-sync` and the `gpp` cookie's `requireOrigin`
+    were missing the `.com` TLD, so neither could ever match a real
+    host (dead matchers); both are now `id5-sync.com`. The bare
+    `id5-sync` origin (a duplicate of `id5-sync.com`) is dropped.
+  - `rollbar` — dropped the
+    `cdnjs.cloudflare.com/ajax/libs/rollbar.js` origin. Origin matchers
+    are host-only, so a value carrying a path never matches; matching
+    all of `cdnjs.cloudflare.com` instead would over-match the shared
+    CDN. The `api.rollbar.com` / `cdn.rollbar.com` origins remain.
+
+### Removed
+
+- `betweendigital-com` — a low-quality OCD duplicate of
+  `betweendigital` carrying a junk `ut` origin and a domain string
+  (`betweendigital.com`) masquerading as a cookie name. Its one useful
+  matcher (the host-qualified `ss` cookie) was merged into
+  `betweendigital`, which already covers the vendor with a
+  `*.betweendigital.com` origin wildcard.
+
 ## 0.3.3 — 2026-05-28
 
 ### Added
