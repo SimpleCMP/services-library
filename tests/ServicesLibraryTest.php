@@ -459,6 +459,116 @@ final class ServicesLibraryTest extends TestCase
         );
     }
 
+    #[Test]
+    public function originMatchersAreWellFormedHosts(): void
+    {
+        // Every entry in matches.origins / matches.aliasOrigins must be a
+        // host matcher: a slash-bounded regex (/.../) OR a well-formed host
+        // (`*.`-wildcard allowed). Catches the corruption class fixed in the
+        // 2026-05-30 audit — a path in an origin (cdnjs.../rollbar.js), a
+        // stray token (`ut`), or a missing-TLD host (`id5-sync`) — none of
+        // which can ever match a real host.
+        $files = glob(ServicesLibrary::dataPath() . '/*.json') ?: [];
+        $violations = [];
+        foreach ($files as $file) {
+            $raw = json_decode((string) file_get_contents($file), true);
+            if (!is_array($raw)) {
+                continue;
+            }
+            $origins = array_merge(
+                (array) ($raw['matches']['origins'] ?? []),
+                (array) ($raw['matches']['aliasOrigins'] ?? []),
+            );
+            foreach ($origins as $origin) {
+                if (!is_string($origin)) {
+                    $violations[] = sprintf('%s: <non-string origin>', basename($file));
+                    continue;
+                }
+                if (self::isRegexMatcher($origin)) {
+                    continue; // slash-bounded regex source
+                }
+                if (!self::isWellFormedHost($origin)) {
+                    $violations[] = sprintf('%s: "%s"', basename($file), $origin);
+                }
+            }
+        }
+        self::assertSame(
+            [],
+            $violations,
+            'matches.origins / aliasOrigins entries must be a slash-regex or a '
+            . "well-formed host (optionally `*.`-prefixed, with a TLD, no path / "
+            . "port / whitespace). Violations:\n  " . implode("\n  ", $violations),
+        );
+    }
+
+    #[Test]
+    public function cookieMatchersAreWellFormed(): void
+    {
+        // A string cookie that is slash-bounded must be a compilable regex;
+        // an object cookie must carry a string `name` plus a `requireOrigin`
+        // that is itself a well-formed host. Guards against a malformed
+        // object cookie or a missing-TLD requireOrigin (e.g. the id5 `gpp`
+        // `id5-sync` fixed in the 2026-05-30 audit) slipping back in.
+        $files = glob(ServicesLibrary::dataPath() . '/*.json') ?: [];
+        $violations = [];
+        foreach ($files as $file) {
+            $raw = json_decode((string) file_get_contents($file), true);
+            $cookies = is_array($raw) ? ($raw['matches']['cookies'] ?? []) : [];
+            if (!is_array($cookies)) {
+                continue;
+            }
+            foreach ($cookies as $cookie) {
+                if (is_string($cookie)) {
+                    if (self::isRegexMatcher($cookie) && @preg_match($cookie, '') === false) {
+                        $violations[] = sprintf('%s: uncompilable cookie regex %s', basename($file), $cookie);
+                    }
+                    continue;
+                }
+                if (!is_array($cookie)) {
+                    $violations[] = sprintf('%s: cookie must be a string or {name, requireOrigin} object', basename($file));
+                    continue;
+                }
+                if (!isset($cookie['name']) || !is_string($cookie['name'])) {
+                    $violations[] = sprintf('%s: object cookie missing string `name`', basename($file));
+                }
+                $requireOrigin = $cookie['requireOrigin'] ?? null;
+                if ($requireOrigin !== null && (!is_string($requireOrigin) || !self::isWellFormedHost($requireOrigin))) {
+                    $violations[] = sprintf(
+                        '%s: object cookie `%s` has malformed requireOrigin %s',
+                        basename($file),
+                        is_string($cookie['name'] ?? null) ? $cookie['name'] : '?',
+                        is_string($requireOrigin) ? '"' . $requireOrigin . '"' : '<non-string>',
+                    );
+                }
+            }
+        }
+        self::assertSame(
+            [],
+            $violations,
+            'Cookie matchers must be a literal name, a compilable slash-regex, or a '
+            . '{name, requireOrigin} object whose requireOrigin is a well-formed host. '
+            . "Violations:\n  " . implode("\n  ", $violations),
+        );
+    }
+
+    /**
+     * Slash-bounded regex source per the Service-DB protocol, e.g. `/^_ga/`.
+     */
+    private static function isRegexMatcher(string $value): bool
+    {
+        return strlen($value) >= 2 && str_starts_with($value, '/') && str_ends_with($value, '/');
+    }
+
+    /**
+     * A host matcher: optional `*.` wildcard prefix, then dot-separated
+     * labels and a 2+ letter TLD. Rejects paths, ports, schemes, whitespace,
+     * embedded credentials, and missing-TLD tokens.
+     */
+    private static function isWellFormedHost(string $host): bool
+    {
+        return preg_match('/^(\*\.)?([a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z]{2,}$/', $host) === 1;
+    }
+
     /**
      * @param iterable<int, mixed> $iterable
      * @return \Generator<int, mixed>

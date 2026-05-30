@@ -28,6 +28,30 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   `betweendigital`, which already covers the vendor with a
   `*.betweendigital.com` origin wildcard.
 
+### Added
+
+- Schema tests `originMatchersAreWellFormedHosts` and
+  `cookieMatchersAreWellFormed` — assert every `origins` / `aliasOrigins`
+  entry and every object-cookie `requireOrigin` is either a slash-regex
+  or a well-formed host (optional `*.` prefix, real TLD, no path / port /
+  whitespace / credentials), and that slash-regex cookie matchers
+  compile. These would have caught the corruption fixed above and lock
+  the format going forward.
+
+### Changed
+
+- Broadened 10 bare apex origins to `*.apex` so they match the
+  subdomains the vendors actually serve from (e.g. comScore's beacon at
+  `sb.scorecardresearch.com`, which the bare apex never matched):
+  `adxcore`, `aniview`, `comscore`, `heap`, `id5`, `mailchimp`,
+  `pubmatic`, `snapchat-pixel`, `sonobi`, `yieldmo`. Removed 4 redundant
+  bare apexes already covered by a `*.` sibling (`disqus`, `hcaptcha`,
+  `youtube` origin + aliasOrigin). Six apexes shared by multiple services
+  (`google.com`, `gstatic.com`, `clarity.ms`, `tiktok.com`, `t.co`) are
+  intentionally left bare — broadening them would mis-attribute traffic
+  across sibling services and needs a per-vendor disambiguation pass
+  (incl. the deferred Google-family cleanup).
+
 ## 0.3.3 — 2026-05-28
 
 ### Added
