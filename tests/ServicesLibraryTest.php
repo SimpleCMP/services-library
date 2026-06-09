@@ -460,6 +460,86 @@ final class ServicesLibraryTest extends TestCase
     }
 
     #[Test]
+    public function shortRegexPrefixCookiesAreHostQualified(): void
+    {
+        // Sibling of shortLiteralCookiesAreHostQualified for the REGEX form,
+        // which that test deliberately skips. A bare (non-object) slash-regex
+        // cookie whose anchored literal prefix is ≤2 chars (e.g. `/^SR/`,
+        // `/^CT/`, `/^tp/`, `/^P_/`) matches almost any cookie on any site and
+        // MUST be host-qualified via the {name, requireOrigin} object form —
+        // the regex name recurses through cookieMatches so it still works.
+        // Object-form regex cookies are exempt (already qualified); longer or
+        // more distinctive prefixes (`/^_ga_/`, `/^EBFC/`) are not flagged.
+        $threshold = 2;
+        $violations = [];
+        foreach (ServicesLibrary::services() as $service) {
+            $id = (string) $service['id'];
+            $cookies = $service['matches']['cookies'] ?? [];
+            if (!is_array($cookies)) {
+                continue;
+            }
+            foreach ($cookies as $c) {
+                if (!is_string($c)) {
+                    continue; // object-form is host-qualified
+                }
+                if (strlen($c) < 2 || $c[0] !== '/' || substr($c, -1) !== '/') {
+                    continue; // not a slash-bounded regex
+                }
+                // Measure the anchored literal prefix the regex pins (counting
+                // escaped chars like `\-`/`\.` as one literal char each, and
+                // stopping at the first real metacharacter). A long pinned
+                // prefix (`^wp\-settings\-`, `^x\-ms\-cpim\-sso`) is specific
+                // and fine; only a ≤2-char pinned prefix is the over-broad
+                // `/^XX/` shape. null = not an anchored literal prefix.
+                $len = self::anchoredLiteralPrefixLength(substr($c, 1, -1));
+                if ($len !== null && $len <= $threshold) {
+                    $violations[] = sprintf('%s: %s', $id, $c);
+                }
+            }
+        }
+        self::assertSame(
+            [],
+            $violations,
+            "Short regex-prefix cookies (anchored prefix ≤{$threshold} chars) must "
+            . 'use the {name, requireOrigin} object form (ADR-0010) — a bare '
+            . '/^XX/ matches almost any cookie on any site. Violations:'
+            . "\n  " . implode("\n  ", $violations),
+        );
+    }
+
+    /**
+     * Length of the literal prefix an anchored regex source pins, or null if
+     * the source isn't `^`-anchored. Escaped chars (`\-`, `\.`) count as one
+     * literal char; scanning stops at the first unescaped metacharacter.
+     */
+    private static function anchoredLiteralPrefixLength(string $src): ?int
+    {
+        if ($src === '' || $src[0] !== '^') {
+            return null;
+        }
+        $len = 0;
+        $i = 1;
+        $n = strlen($src);
+        while ($i < $n) {
+            $ch = $src[$i];
+            if ($ch === '\\') {
+                if ($i + 1 >= $n) {
+                    break;
+                }
+                $i += 2;
+                $len++;
+                continue;
+            }
+            if (strpos('.[](){}*+?|^$', $ch) !== false) {
+                break;
+            }
+            $i++;
+            $len++;
+        }
+        return $len;
+    }
+
+    #[Test]
     public function originMatchersAreWellFormedHosts(): void
     {
         // Every entry in matches.origins / matches.aliasOrigins must be a
