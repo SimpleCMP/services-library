@@ -11,12 +11,13 @@ import the records into their own registry.
 
 ## What's in it
 
-**368 services** covering analytics, ad networks, embeds, forms /
+**Over 360 services** covering analytics, ad networks, embeds, forms /
 captcha, chat widgets, payments, maps, monitoring, fonts, tag
 management, and a long tail of region-specific ad-tech. Each lives in
 `data/services/<id>.json` — `ls data/services` is the source of truth
 for the current set; a hand-maintained category list would rot too
-fast at this size.
+fast at this size. See [CHANGELOG.md](CHANGELOG.md) for the current
+tagged release.
 
 Where the data comes from:
 
@@ -35,9 +36,9 @@ Where the data comes from:
   Pinterest Europe Limited, Stripe Payments Europe Limited) carry the
   full Art. 13 disclosure fields (postal address, opt-out URL,
   partner / joint-controllers, provider description, transfer basis)
-  used by SimpleCMP's L2 Provider-Informationen modal. The remaining
-  ~340 entries ship with just `vendor` + `vendorCountry` and degrade
-  gracefully in the modal. Curators can promote any long-tail entry
+  used by SimpleCMP's L2 Provider-Informationen modal. The long-tail
+  entries ship with at least `vendor` (and often `vendorCountry`) and
+  degrade gracefully in the modal. Curators can promote any long-tail entry
   via the [`curate-service-provider`](./.claude/skills/curate-service-provider/SKILL.md)
   Claude Code skill.
 
@@ -87,8 +88,9 @@ Each JSON file conforms to the upstream Service-DB protocol:
 | `vendorDescription` | string | optional | Short description of **the legal entity / company itself** (distinct from the service `description`). E.g. `"OpenStreetMap ist eine kostenlose und öffentliche geografische Datenbank."` |
 | `matches.cookies` | array | one of cookies/origins | Each entry is either a string (exact name or `/regex/`) or a `{ name, requireOrigin }` object (host-qualified — only fires when the runtime has also observed the qualifying origin). |
 | `matches.origins` | array of strings | one of cookies/origins | Exact hosts (`maps.googleapis.com`) or wildcard form `*.suffix` (matches both the apex `suffix` and every subdomain `*.suffix`). |
+| `matches.aliasOrigins` | array of strings | optional | Additional host groups for a multi-TLD / multi-CDN vendor (e.g. Meta → `*.facebook.net`, `*.fbcdn.net`, `*.fbsbx.com`). The PHP loader flattens these into `matches.origins` at read time, so consumers see one origin list. |
 | `retention` | object | optional | `{display, durationDays}` |
-| `i18n` | object | optional | Per-language overrides for `title` and `description` |
+| `i18n` | object | optional | Per-language overrides keyed by language code (e.g. `de`). In practice used for `placeholderDescription` (and occasionally `description`). |
 | `placeholderTitle` | string | optional | Short title for the click-to-enable placeholder UI (when SimpleCMP auto-inserts a `<simplecmp-contextual-notice>` next to a blocked embed). Falls back to `name`/`title` when unset. |
 | `placeholderDescription` | string | optional | One-sentence description for the click-to-enable placeholder UI — what the visitor would load by enabling. Falls back to the engine's default `contextualConsent.description` template when unset. |
 
@@ -96,7 +98,7 @@ Tests validate the schema on every PR.
 
 ### Provider-disclosure fields (DSGVO Art. 13 L2 modal)
 
-The four `vendor*` fields (`vendorCountry`, `vendorAddress`,
+The five `vendor*` fields (`vendorCountry`, `vendorAddress`,
 `vendorOptOutUrl`, `vendorPartner`, `vendorDescription`) plus the
 existing `vendor` and `privacyPolicyUrl` fields together populate the
 **Provider-Informationen modal** that SimpleCMP renders one click
@@ -116,8 +118,8 @@ vendors, the existing `vendor` string is sufficient as a baseline.
 
 ### Host-qualified cookie matchers
 
-55 services use the object form `{ name, requireOrigin }` on at least
-one cookie matcher. Use it whenever the bare cookie name is too
+Around 60 services use the object form `{ name, requireOrigin }` on at
+least one cookie matcher. Use it whenever the bare cookie name is too
 generic to be safely attributable to one tracker. Concrete examples in
 the library:
 
