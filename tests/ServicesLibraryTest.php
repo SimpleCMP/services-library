@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SimpleCMP\ServicesLibrary\Tests;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use SimpleCMP\ServicesLibrary\ServicesLibrary;
@@ -543,11 +544,19 @@ final class ServicesLibraryTest extends TestCase
     public function originMatchersAreWellFormedHosts(): void
     {
         // Every entry in matches.origins / matches.aliasOrigins must be a
-        // host matcher: a slash-bounded regex (/.../) OR a well-formed host
-        // (`*.`-wildcard allowed). Catches the corruption class fixed in the
-        // 2026-05-30 audit — a path in an origin (cdnjs.../rollbar.js), a
-        // stray token (`ut`), or a missing-TLD host (`id5-sync`) — none of
-        // which can ever match a real host.
+        // host matcher: a slash-bounded regex (/.../), a well-formed host
+        // (`*.`-wildcard allowed), or such a host followed by a DIRECTORY
+        // path prefix (`www.google.com/maps/`). Catches the corruption
+        // class fixed in the 2026-05-30 audit — a path in an origin
+        // (cdnjs.../rollbar.js), a stray token (`ut`), or a missing-TLD
+        // host (`id5-sync`) — none of which can ever match a real host.
+        //
+        // The trailing slash is what separates an intentional path scope
+        // from that corruption class: a prefix names a directory, so
+        // `…/rollbar.js` is still a violation. Path scopes exist for hosts
+        // serving two products that need different consent treatment —
+        // `www.google.com` carries both the Maps embed (/maps/) and the
+        // reCAPTCHA loader (/recaptcha/).
         $files = glob(ServicesLibrary::dataPath() . '/*.json') ?: [];
         $violations = [];
         foreach ($files as $file) {
@@ -567,6 +576,9 @@ final class ServicesLibraryTest extends TestCase
                 if (self::isRegexMatcher($origin)) {
                     continue; // slash-bounded regex source
                 }
+                if (self::isWellFormedHostWithPathScope($origin)) {
+                    continue; // host + directory path prefix
+                }
                 if (!self::isWellFormedHost($origin)) {
                     $violations[] = sprintf('%s: "%s"', basename($file), $origin);
                 }
@@ -575,10 +587,49 @@ final class ServicesLibraryTest extends TestCase
         self::assertSame(
             [],
             $violations,
-            'matches.origins / aliasOrigins entries must be a slash-regex or a '
-            . "well-formed host (optionally `*.`-prefixed, with a TLD, no path / "
-            . "port / whitespace). Violations:\n  " . implode("\n  ", $violations),
+            'matches.origins / aliasOrigins entries must be a slash-regex, a '
+            . "well-formed host (optionally `*.`-prefixed, with a TLD, no port / "
+            . "whitespace), or such a host plus a directory path prefix that ends "
+            . "in a slash (`www.google.com/maps/`). Violations:\n  " . implode("\n  ", $violations),
         );
+    }
+
+    /**
+     * @return list<array{0: string, 1: bool}>
+     */
+    public static function originShapeProvider(): array
+    {
+        return [
+            // Accepted before path scopes existed — must stay accepted.
+            'plain host'              => ['maps.googleapis.com', true],
+            'wildcard host'           => ['*.youtube.com', true],
+            // The point of the feature.
+            'directory path scope'    => ['www.google.com/maps/', true],
+            'wildcard + path scope'   => ['*.google.com/recaptcha/', true],
+            'deep directory'          => ['example.com/a/b/', true],
+            // The 2026-05-30 corruption class — must STAY rejected. A file
+            // path has no trailing slash, which is exactly the distinction.
+            'file path'               => ['cdnjs.cloudflare.com/ajax/libs/rollbar.js', false],
+            'bare trailing slash'     => ['example.com/', false],
+            'traversal'               => ['example.com/../etc/', false],
+            'path on a non-host'      => ['id5-sync/maps/', false],
+            'whitespace in path'      => ['example.com/a b/', false],
+            'scheme'                  => ['https://example.com/maps/', false],
+            'port'                    => ['example.com:8080/maps/', false],
+        ];
+    }
+
+    #[Test]
+    #[DataProvider('originShapeProvider')]
+    public function originShapeGuardAcceptsPathScopesButStillRejectsFilePaths(
+        string $origin,
+        bool $acceptable,
+    ): void {
+        $ok = self::isRegexMatcher($origin)
+            || self::isWellFormedHostWithPathScope($origin)
+            || self::isWellFormedHost($origin);
+
+        self::assertSame($acceptable, $ok, sprintf('origin matcher "%s"', $origin));
     }
 
     #[Test]
@@ -647,6 +698,33 @@ final class ServicesLibraryTest extends TestCase
     private static function isWellFormedHost(string $host): bool
     {
         return preg_match('/^(\*\.)?([a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z]{2,}$/', $host) === 1;
+    }
+
+    /**
+     * A host matcher scoped to a directory: a well-formed host, then a
+     * path prefix that both starts and ends with `/`.
+     *
+     * The closing slash is load-bearing. It admits `www.google.com/maps/`
+     * while keeping the audit guard against `cdnjs…/rollbar.js`: a file
+     * path has no trailing slash and stays a violation. `..` is rejected
+     * so a prefix cannot be written to traverse.
+     */
+    private static function isWellFormedHostWithPathScope(string $value): bool
+    {
+        $slash = strpos($value, '/');
+        if ($slash === false) {
+            return false;
+        }
+        $host = substr($value, 0, $slash);
+        $path = substr($value, $slash);
+        if (!self::isWellFormedHost($host)) {
+            return false;
+        }
+        if (!str_ends_with($path, '/') || $path === '/') {
+            return false;
+        }
+        return preg_match('#^(/[A-Za-z0-9._~%!$&\'()*+,;=:@-]+)+/$#', $path) === 1
+            && !str_contains($path, '..');
     }
 
     /**
