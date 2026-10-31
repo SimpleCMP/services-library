@@ -7,6 +7,16 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Fixed
 
+- `google-analytics` and `google-ads` now match the hosts Google
+  actually collects on. Origin matchers are exact unless they start
+  with `*.`; GA4 sends to `region1.analytics.google.com`, the Google tag
+  pings `www.google.com/ccm` and `*.doubleclick.net`, and none of these
+  matched, so a CMP with Universal Blocking dropped every Google hit
+  even after consent. `google-analytics` gains `*.analytics.google.com`
+  and `stats.g.doubleclick.net` (Signals), `google-ads` gains
+  `www.google.com` and `*.doubleclick.net`. The path-scoped
+  `www.google.com/maps/` and `www.google.com/recaptcha/` claims stay
+  more specific than the new host-only Ads claim.
 - Corrupt origin/cookie matchers in three service entries (audit
   2026-05-30):
   - `id5` — the origin `id5-sync` and the `gpp` cookie's `requireOrigin`
